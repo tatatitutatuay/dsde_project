@@ -1,0 +1,8 @@
+# Ignore build and dependencies
+node_modules
+.next
+out
+
+# Ignore specific files
+package-lock.json
+public/*
