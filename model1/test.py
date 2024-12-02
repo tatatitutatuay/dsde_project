@@ -13,8 +13,8 @@ def load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filenam
     Returns:
         tuple: Loaded model and vectorizer.
     """
-    model = joblib.load(os.path.join('look_good_model', model_filename))
-    vectorizer = joblib.load(os.path.join('look_good_model', vectorizer_filename))
+    model = joblib.load(os.path.join('model1', model_filename))
+    vectorizer = joblib.load(os.path.join('model1', vectorizer_filename))
     return model, vectorizer
 
 # Predict keywords from a new abstract using the trained model and vectorizer
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     model, vectorizer = load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filename='tfidf_vectorizer.pkl')
 
     # New abstract for keyword extraction
-    new_abstract = '''One of the most significant challenges in machine learning is the issue of overfitting, where a model learns the noise in the training data rather than the underlying patterns. To mitigate overfitting, techniques such as cross-validation, regularization (e.g., L1 and L2), and dropout are widely employed. Moreover, ensemble learning methods, such as bagging and boosting, combine multiple models to improve accuracy and robustness. These approaches have become standard practices in machine learning pipelines, ensuring that models generalize well to unseen data and avoid overfitting.'''
+    new_abstract = '''Supervised learning has proven to be an effective approach in building predictive models across various domains, from finance to healthcare. Algorithms such as decision trees, random forests, and support vector machines (SVMs) are widely used for classification and regression tasks. However, the need for large labeled datasets has driven the exploration of semi-supervised learning and active learning methods, which can reduce the dependency on labeled data by leveraging unlabeled samples. Moreover, the ability to combine traditional machine learning techniques with deep learning architectures has opened up new possibilities for high-dimensional data analysis.'''
 
     # Predict keywords with their TF-IDF scores
     predicted_keywords_with_scores = predict_keywords_from_model(new_abstract, model, vectorizer, 5)
