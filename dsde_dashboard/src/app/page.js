@@ -1,103 +1,178 @@
-import LinePlot from "@/components/LinePlot";
-import Image from "next/image";
+'use client';
+
+import { Button, Field, Textarea } from '@headlessui/react';
+import clsx from 'clsx';
+import { useState } from 'react';
+
+import { TypewriterEffect } from '@/components/ui/typewriter-effect';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <LinePlot data={[10, 20, 15, 30, 25]}/>
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    const [abstract, setAbstract] = useState('');
+    const [abstractDisabled, setAbstractDisabled] = useState(false);
+    const [keywords, setKeywords] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    const handleA2K = () => {
+        // Call API to convert Abstract to Keywords
+        alert('Converting Abstract to Keywords...');
+        setKeywords(['Keyword 1', 'Keyword 2', 'Keyword 3']);
+        setAbstractDisabled(true);
+    };
+
+    const handleClear = () => {
+        setAbstract('');
+        setKeywords([]);
+        setAbstractDisabled(false);
+    };
+
+    const [isCopied, setIsCopied] = useState(false);
+    const handleCopy = () => {
+        const text = keywords.join(', ');
+
+        navigator.clipboard.writeText(text).then(() => {
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 3000);
+        });
+    };
+
+    return (
+        <main className="container mx-auto my-24 flex justify-center items-center">
+            <div className="w-full flex flex-col gap-12 items-center justify-center">
+                {/* Title */}
+                <div className="text-center flex flex-col gap-4">
+                    <TypewriterEffect
+                        words={[
+                            { text: 'Drop' },
+                            { text: 'Your' },
+                            { text: 'Abstract', className: 'text-pink-500' },
+                            { text: 'Here' },
+                        ]}
+                        cursorClassName="bg-black/80"
+                    />
+                    <p className="text-black/50 text-md text-pretty">
+                        This tool will generate keywords for your paper using
+                        data from Chulalongkorn University Library.
+                    </p>
+                </div>
+
+                {/* Textarea */}
+                <div className="flex flex-col justify-center items-end gap-4 max-w-2xl w-full">
+                    <TextField
+                        value={abstract}
+                        onChange={(e) => {
+                            setAbstract(e.target.value);
+                        }}
+                        placeholder={'Paste your abstract here...'}
+                        disabled={abstractDisabled}
+                    />
+                    {abstractDisabled ? (
+                        <Button2 onClick={handleClear}>Clear Abstract</Button2>
+                    ) : (
+                        <Button2 onClick={handleA2K}>Submit</Button2>
+                    )}
+                </div>
+
+                {
+                    // Keywords
+                    keywords.length > 0 && (
+                        <div className="flex flex-col gap-4 items-center">
+                            <h3 className="text-2xl font-semibold text-black">
+                                Keywords
+                            </h3>
+                            <div className="flex flex-wrap gap-4 justify-center items-center">
+                                {keywords.map((keyword, index) => (
+                                    <span
+                                        key={index}
+                                        className="bg-black/5 rounded-full px-3 py-1 text-sm/6 text-black"
+                                    >
+                                        {keyword}
+                                    </span>
+                                ))}
+                                <span key={'copy'}>
+                                    <CopyButton
+                                        handleCopy={handleCopy}
+                                        isCopied={isCopied}
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
+        </main>
+    );
 }
+
+// TextField component
+const TextField = ({ value, onChange, placeholder, disabled }) => {
+    return (
+        <div className="w-full max-w-2xl">
+            <Field>
+                <Textarea
+                    className={clsx(
+                        'mt-3 block w-full resize-none rounded-lg border-none bg-black/5 py-1.5 px-3 text-sm/6 text-black',
+                        'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black/25'
+                    )}
+                    rows={5}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    disabled={disabled}
+                />
+            </Field>
+        </div>
+    );
+};
+
+// Button component
+const Button2 = ({ children, onClick }) => {
+    return (
+        <Button
+            className="inline-flex justify-center items-center gap-2 rounded-md bg-gray-900 py-1.5 px-3 text-sm/6 font-medium text-white max-w-36 text-center shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+            onClick={onClick}
+        >
+            {children}
+        </Button>
+    );
+};
+
+// Copy
+const CopyButton = ({ handleCopy, isCopied }) => {
+    return (
+        <button
+            onClick={handleCopy}
+            className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 inline-flex items-center justify-center"
+        >
+            {!isCopied ? (
+                <span id="default-icon">
+                    <svg
+                        className="w-3.5 h-3.5"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 18 20"
+                    >
+                        <path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z" />
+                    </svg>
+                </span>
+            ) : (
+                <span id="success-icon" className="inline-flex items-center">
+                    <svg
+                        className="w-3.5 h-3.5 text-blue-700 dark:text-blue-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 16 12"
+                    >
+                        <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M1 5.917 5.724 10.5 15 1.5"
+                        />
+                    </svg>
+                </span>
+            )}
+        </button>
+    );
+};
