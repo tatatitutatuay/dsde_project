@@ -50,7 +50,7 @@ filtered_words, filtered_labels = zip(*filtered_words_labels)
 X_train, X_test, y_train, y_test = train_test_split(filtered_words, filtered_labels, test_size=0.2, random_state=42)
 
 # Vectorize the words using TF-IDF with n-grams (e.g., bigrams or trigrams)
-vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english')  # Remove common English stopwords
+vectorizer = TfidfVectorizer(ngram_range=(1, 4), stop_words='english')  # Remove common English stopwords
 X_train_tfidf = vectorizer.fit_transform(X_train)
 X_test_tfidf = vectorizer.transform(X_test)
 
@@ -88,7 +88,7 @@ def load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filenam
 model, vectorizer = load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filename='tfidf_vectorizer.pkl')
 
 # Predict keywords from a new abstract using the trained model and vectorizer
-def predict_keywords_from_model(abstract, model, vectorizer, min_keywords=5):
+def predict_keywords_from_model(abstract, model, vectorizer, min_keywords):
     """
     Predict at least `min_keywords` from an abstract using the trained model and vectorizer, 
     considering multi-word n-grams (bigrams, trigrams).
@@ -100,7 +100,7 @@ def predict_keywords_from_model(abstract, model, vectorizer, min_keywords=5):
         min_keywords (int): Minimum number of keywords to return.
         
     Returns:
-        List of predicted keywords (including n-grams).
+        List of tuples: Each tuple contains a keyword (or n-gram) and its corresponding TF-IDF score.
     """
     # Vectorize the entire abstract using the vectorizer (this includes n-grams)
     word_vectors = vectorizer.transform([abstract])  # Vectorize the full abstract
@@ -114,37 +114,25 @@ def predict_keywords_from_model(abstract, model, vectorizer, min_keywords=5):
     # Combine the features (words/n-grams) with their TF-IDF scores
     ranked_keywords = sorted(zip(feature_names, tfidf_scores), key=lambda x: x[1], reverse=True)
     
-    # Filter out very low-score keywords and return the top n keywords
-    unique_keywords = [word for word, score in ranked_keywords if score > 0]
+    # Filter out very low-score keywords and return the top n keywords with their scores
+    ranked_keywords_filtered = [(word, score) for word, score in ranked_keywords if score > 0]
 
-    # Ensure we return at least `min_keywords`
-    return unique_keywords[:min_keywords]
+    # Ensure we return at least `min_keywords` and their scores
+    return ranked_keywords_filtered[:min_keywords]
 
-# Example usage for predicting keywords from a new abstract
-new_abstract = '''This paper proposes a computational model for policy administration.
-As an organization evolves, new users and resources are gradually
-placed under the mediation of the access control model. Each time
-such new entities are added, the policy administrator must
-deliberate on how the access control policy shall be revised to
-reflect the new reality. A well-designed access control model must
-anticipate such changes so that the administration cost does not
-become prohibitive when the organization scales up. Unfortunately,
-past Access Control research does not offer a formal way to quantify
-the cost of policy administration. In this work, we propose to
-model ongoing policy administration in an active learning
-framework. Administration cost can be quantified in terms of query
-complexity. We demonstrate the utility of this approach by applying
-it to the evolution of protection domains. We also modelled
-different policy administration strategies in our framework. This
-allowed us to formally demonstrate that domain-based policies have a
-cost advantage over access control matrices because of the use of
-heuristic reasoning when the policy evolves. To the best of our
-knowledge, this is the first work to employ an active learning
-framework to study the cost of policy deliberation and demonstrate
-the cost advantage of heuristic policy administration.'''
+# Example usage for predicting keywords with their scores from a new abstract
+new_abstract = '''Based on the covariant underdamped and overdamped Langevin equations
+with Stratonovich coupling to multiplicative noises and the associated
+Fokker-Planck equations on Riemannian manifold, we present
+the first law of stochastic thermodynamics on the trajectory level.
+The corresponding fluctuation theorems are also
+established, with the total entropy production of the Brownian particle
+and the heat reservoir playing the role of dissipation function.'''
 
-# Predict keywords from the new abstract
-predicted_keywords = predict_keywords_from_model(new_abstract, model, vectorizer, min_keywords=5)
+# Predict keywords with their TF-IDF scores
+predicted_keywords_with_scores = predict_keywords_from_model(new_abstract, model, vectorizer, 3)
 
-# Print predicted keywords
-print("Predicted Keywords:", predicted_keywords)
+# Print predicted keywords with scores
+print("Predicted Keywords with Scores:")
+for keyword, score in predicted_keywords_with_scores:
+    print(f"{keyword}: {score:.4f}")
