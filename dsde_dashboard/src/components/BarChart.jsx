@@ -22,35 +22,33 @@ const BarChart = ({ data }) => {
         // Create scales for the X and Y axes
         const x = d3
             .scaleBand()
-            .domain(data.map(d => d[0])) // Use the keyword as the domain
+            .domain(data.map((d) => d[0])) // Use the keyword as the domain
             .range([0, width])
             .padding(0.1);
 
         const y = d3
             .scaleLinear()
-            .domain([0, d3.max(data, d => d[1])]) // Use the maximum value for the Y domain
+            .domain([0, d3.max(data, (d) => d[1])]) // Use the maximum value for the Y domain
             .nice() // Add some nice rounding to the axis
             .range([height, 0]);
 
         // Color array for each bar
-        const colors = ['#9b5de5', '#fee440', '#00bbf9'];
+        const colors = ['#9b5de5', '#f15bb5', '#fee440', '#00bbf9', '#00f5d4'];
 
         // Create the bars
-        svg
-            .selectAll('.bar')
+        svg.selectAll('.bar')
             .data(data)
             .enter()
             .append('rect')
             .attr('class', 'bar')
             .attr('x', (d, i) => x(d[0])) // Position the bar along the x-axis
-            .attr('y', d => y(d[1])) // Position the bar along the y-axis
+            .attr('y', (d) => y(d[1])) // Position the bar along the y-axis
             .attr('width', x.bandwidth()) // Set the width of the bar
-            .attr('height', d => height - y(d[1])) // Set the height of the bar
+            .attr('height', (d) => height - y(d[1])) // Set the height of the bar
             .attr('fill', (d, i) => colors[i]); // Set the fill color based on the index
 
         // Create the X-axis
-        svg
-            .append('g')
+        svg.append('g')
             .selectAll('.x-axis')
             .data([0])
             .enter()
@@ -59,9 +57,7 @@ const BarChart = ({ data }) => {
             .call(d3.axisBottom(x));
 
         // Create the Y-axis
-        svg
-            .append('g')
-            .call(d3.axisLeft(y));
+        svg.append('g').call(d3.axisLeft(y));
     }, [data]);
 
     return <svg ref={svgRef}></svg>;

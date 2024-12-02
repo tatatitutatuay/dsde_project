@@ -5,7 +5,7 @@ import d3Cloud from 'd3-cloud';
 import { useEffect, useRef, useState } from 'react';
 
 export default function WordCloud({
-    csvFilePath = "/path/to/keyword_counts.csv", // Path to the CSV file
+    csvFilePath = '/path/to/keyword_counts.csv', // Path to the CSV file
     size = (d) => d.size,
     width = 1280,
     height = 500,
@@ -54,7 +54,10 @@ export default function WordCloud({
         // Adjust font size scaling based on the count range
         const sizeScale = d3
             .scaleLinear()
-            .domain([d3.min(data, (d) => d.count), d3.max(data, (d) => d.count)]) // Ensure range covers min to max size
+            .domain([
+                d3.min(data, (d) => d.count),
+                d3.max(data, (d) => d.count),
+            ]) // Ensure range covers min to max size
             .range([minFontSize, maxFontSize]);
 
         const svg = d3

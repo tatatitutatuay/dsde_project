@@ -13,16 +13,12 @@ import BarChart from '@/components/BarChart';
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
-    const [keywords, setKeywords] = useState([
-        'Keyword 1',
-        'Keyword 2',
-        'Keyword 3',
-    ]);
+    const [keywords, setKeywords] = useState([]);
 
     const handleA2K = () => {
         // Call API to convert Abstract to Keywords
         alert('Converting Abstract to Keywords...');
-        setKeywords(['Keyword 1', 'Keyword 2', 'Keyword 3']);
+        setKeywords(['Keyword 1', 'Keyword 2', 'Keyword 3', 'Keyword 4', 'Keyword 5']);
         setAbstractDisabled(true);
     };
 
@@ -41,34 +37,6 @@ export default function Home() {
             setTimeout(() => setIsCopied(false), 3000);
         });
     };
-
-    // Word Cloud
-    const wordArray = Array.from({ length: 200 }, () => {
-        const words = [
-            'apple',
-            'banana',
-            'cherry',
-            'date',
-            'elderberry',
-            'fig',
-            'grape',
-            'honeydew',
-            'kiwi',
-            'lemon',
-            'mango',
-            'nectarine',
-            'orange',
-            'papaya',
-            'quince',
-            'raspberry',
-            'strawberry',
-            'tomato',
-            'watermelon',
-        ];
-        const word = words[Math.floor(Math.random() * words.length)]; // Randomly pick a word
-        const count = Math.floor(word.length * 10) + 1; // Random count between 1 and 10
-        return [word, count];
-    });
 
     // Bubble Map
     const [populationData, setPopulationData] = useState(null);
@@ -149,18 +117,30 @@ export default function Home() {
                     )
                 }
 
-                {/* Bar Chart */}
-                <BarChart data={keywords.map((keyword) => [keyword, 10])} />
+                {
+                    // Bar Chart
+                    keywords.length > 0 && (
+                        <BarChart
+                            data={keywords.map((keyword) => [keyword, 10])}
+                        />
+                    )
+                }
 
-                {/* Buble Map */}
-                <BubbleMap
-                    populationData={populationData}
-                    worldMap={worldMap}
-                />
+                {
+                    // Bubble Map
+                    keywords.length > 0 && (
+                        <BubbleMap
+                            populationData={populationData}
+                            worldMap={worldMap}
+                        />
+                    )
+                }
 
                 {/* Word Cloud */}
-                <WordCloud csvFilePath="/data/keyword_counts.csv" minCount={20} />
-
+                <WordCloud
+                    csvFilePath="/data/keyword_counts.csv"
+                    minCount={20}
+                />
             </div>
         </main>
     );
