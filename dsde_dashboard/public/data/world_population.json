@@ -1,0 +1,44 @@
+[
+  {
+    "iso_a3": "ABW", 
+    "country": "Aruba",
+    "keyword": [{
+      "name": "keyword1",
+      "frequency": 106314
+    }, {
+      "name": "keyword2",
+      "frequency": 2233147
+    }, {
+      "name": "keyword3",
+      "frequency": 25346789
+    }]
+  },
+  {
+    "iso_a3": "USA",
+    "country": "United States",
+    "keyword": [{
+      "name": "keyword1",
+      "frequency": 132486284
+    }, {
+      "name": "keyword2",
+      "frequency": 22233147
+    }, {
+      "name": "keyword3",
+      "frequency": 253346789
+    }]
+  },
+  {
+    "iso_a3": "BRA",
+    "country": "Brazil",
+    "keyword": [{
+      "name": "keyword1",
+      "frequency": 10600314
+    }, {
+      "name": "keyword2",
+      "frequency": 2233147
+    }, {
+      "name": "keyword3",
+      "frequency": 10000
+    }]
+  }
+]
