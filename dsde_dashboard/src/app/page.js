@@ -1,15 +1,23 @@
 'use client';
 
-import { Button, Field, Textarea } from '@headlessui/react';
-import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
+import { Button, Field, Textarea } from '@headlessui/react';
 import { TypewriterEffect } from '@/components/ui/typewriter-effect';
+import clsx from 'clsx';
+
+import WordCloud from '@/components/WordCloud';
+import BubbleMap from '@/components/BubbleMap';
+import BarChart from '@/components/BarChart';
 
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
-    const [keywords, setKeywords] = useState([]);
+    const [keywords, setKeywords] = useState([
+        'Keyword 1',
+        'Keyword 2',
+        'Keyword 3',
+    ]);
 
     const handleA2K = () => {
         // Call API to convert Abstract to Keywords
@@ -34,6 +42,49 @@ export default function Home() {
         });
     };
 
+    // Word Cloud
+    const wordArray = Array.from({ length: 200 }, () => {
+        const words = [
+            'apple',
+            'banana',
+            'cherry',
+            'date',
+            'elderberry',
+            'fig',
+            'grape',
+            'honeydew',
+            'kiwi',
+            'lemon',
+            'mango',
+            'nectarine',
+            'orange',
+            'papaya',
+            'quince',
+            'raspberry',
+            'strawberry',
+            'tomato',
+            'watermelon',
+        ];
+        const word = words[Math.floor(Math.random() * words.length)]; // Randomly pick a word
+        const count = Math.floor(word.length * 10) + 1; // Random count between 1 and 10
+        return [word, count];
+    });
+
+    // Bubble Map
+    const [populationData, setPopulationData] = useState(null);
+    const [worldMap, setWorldMap] = useState(null);
+
+    useEffect(() => {
+        // Fetch population data and world map
+        Promise.all([
+            fetch('/data/world_population.json').then((res) => res.json()),
+            fetch('/data/countries.geojson').then((res) => res.json()),
+        ]).then(([populationData, worldMap]) => {
+            setPopulationData(populationData);
+            setWorldMap(worldMap);
+        });
+    }, []);
+
     return (
         <main className="container mx-auto my-24 flex justify-center items-center">
             <div className="w-full flex flex-col gap-12 items-center justify-center">
@@ -43,7 +94,7 @@ export default function Home() {
                         words={[
                             { text: 'Drop' },
                             { text: 'Your' },
-                            { text: 'Abstract', className: 'text-pink-500' },
+                            { text: 'Abstract', className: 'text-[#f15bb5]' },
                             { text: 'Here' },
                         ]}
                         cursorClassName="bg-black/80"
@@ -97,6 +148,19 @@ export default function Home() {
                         </div>
                     )
                 }
+
+                {/* Bar Chart */}
+                <BarChart data={keywords.map((keyword) => [keyword, 10])} />
+
+                {/* Buble Map */}
+                <BubbleMap
+                    populationData={populationData}
+                    worldMap={worldMap}
+                />
+
+                {/* Word Cloud */}
+                <WordCloud csvFilePath="/data/keyword_counts.csv" minCount={20} />
+
             </div>
         </main>
     );
