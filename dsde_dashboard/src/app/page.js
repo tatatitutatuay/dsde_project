@@ -159,7 +159,8 @@ export default function Home() {
                 />
 
                 {/* Word Cloud */}
-                <WordCloud wordsArray={wordArray} width={800} height={500} />
+                <WordCloud csvFilePath="/data/keyword_counts.csv" minCount={20} />
+
             </div>
         </main>
     );
