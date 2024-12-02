@@ -8,6 +8,7 @@ import clsx from 'clsx';
 
 import WordCloud from '@/components/WordCloud';
 import BubbleMap from '@/components/BubbleMap';
+import BarChart from '@/components/BarChart';
 
 export default function Home() {
     const [abstract, setAbstract] = useState('');
@@ -147,6 +148,9 @@ export default function Home() {
                         </div>
                     )
                 }
+
+                {/* Bar Chart */}
+                <BarChart data={keywords.map((keyword) => [keyword, 10])} />
 
                 {/* Buble Map */}
                 <BubbleMap
