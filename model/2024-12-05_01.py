@@ -269,22 +269,23 @@ class GPUKeywordExtractor:
 def main():
     # Load your data
     df = pd.read_csv('data_noTHInAbstract.csv')
-    
+
     # Initialize extractor
     extractor = GPUKeywordExtractor(max_features=5000, batch_size=32)
-    
+
     # Train model
     extractor.train(
         abstracts=df['abstract'].values,
         keywords=df['keywords'].values,
         epochs=10
     )
-    
+
     # Save model
     extractor.save_model('keyword_extractor_model.pt')
-    
+
     # Example prediction
-    test_abstract = "Online recruitment platforms typically employ Person-Job Fit models..."
+    test_abstract = "Online recruitment platforms typically employ Person-Job Fit models in the core service that automatically match suitable job seekers with appropriate job positions. While existing works leverage historical or contextual information, they often disregard a crucial aspect: job seekers’ social relationships in professional networks. This paper emphasizes the importance of incorporating professional networks into the Person-Job Fit model. Our innovative approach consists of two stages: (1) defining a Workplace Heterogeneous Information Network (WHIN) to capture heterogeneous knowledge, including professional connections and pre-training representations of various entities using a heterogeneous graph neural network; (2) designing a Contextual Social Attention Graph Neural Network (CSAGNN) that supplements users’ missing information with professional connections’ contextual information. We introduce a job-specific attention mechanism in CSAGNN to handle noisy professional networks, leveraging pre-trained entity representations from WHIN. We demonstrate the effectiveness of our approach through experimental evaluations conducted across three real-world recruitment datasets from LinkedIn, showing superior performance compared to baseline models."
+    # The actual keyword: ['Person-Job', 'Fit,', 'Heterogeneous', 'Information', 'Network,', 'Graph', 'Neural',
     predicted_keywords = extractor.predict(test_abstract, top_k=5)
     print(f"Predicted keywords: {predicted_keywords}")
 
