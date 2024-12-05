@@ -165,7 +165,7 @@ export default function Home() {
                 />
 
                 {/* Network Visualization*/}
-                <NetworkComponent nodesData={nodes} edgesData={edges}/>
+                <NetworkComponent path="/data/network_data_combined.json"/>
             </div>
         </main>
     );

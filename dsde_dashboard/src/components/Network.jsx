@@ -1,36 +1,49 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Network } from 'vis-network';
 
 export default function NetworkComponent({
-    nodesData, 
-    edgesData
+    path,
 }) {
     const networkContainerRef = useRef(null);
+    const [nodes, setNodes] = useState(null);
+    const [edges, setEdges] = useState(null);
 
+    // Fetch the data from the provided path
     useEffect(() => {
-        // Options for the network
-        const options = {
-            nodes: {
-                shape: "dot",
-                size: 16,
-                font: {
+        fetch(path) // Update with your actual JSON path
+            .then((response) => response.json())
+            .then((data) => { 
+                console.log(data); // Debugging: check the fetched data
+                setNodes(data.nodes);
+                setEdges(data.edges);
+            });
+    }, [path]);
+
+    // Initialize the network after nodes and edges are loaded
+    useEffect(() => {
+        if (nodes && edges) { // Ensure nodes and edges are not null
+            const options = {
+                nodes: {
+                    shape: "dot",
                     size: 16,
+                    font: {
+                        size: 16,
+                    },
                 },
-            },
-            edges: {
-                color: "#848484",
-            },
-            physics: {
-                enabled: true,
-            },
-        };
+                edges: {
+                    color: "#848484",
+                },
+                physics: {
+                    enabled: true,
+                },
+            };
 
-        // Create the network visualization
-        new Network(networkContainerRef.current, { nodes: nodesData, edges: edgesData }, options);
-    }, [nodesData, edgesData]);
-
+            // Create the network visualization
+            new Network(networkContainerRef.current, { nodes, edges }, options);
+        }
+    }, [nodes, edges]); // Re-run when nodes or edges change
     return (
         <div
             ref={networkContainerRef}
