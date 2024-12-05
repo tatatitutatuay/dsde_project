@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import WordCloud from '@/components/WordCloud';
 import BubbleMap from '@/components/BubbleMap';
 import BarChart from '@/components/BarChart';
+import NetworkComponent from '@/components/Network';
 
 export default function Home() {
     const [abstract, setAbstract] = useState('');
@@ -52,6 +53,27 @@ export default function Home() {
             setWorldMap(worldMap);
         });
     }, []);
+
+    // Network Visualization
+    const [nodes, setNodes] = useState(null);
+    const [edges, setEdges] = useState(null);
+
+    const nodesTemp = [
+        { id: 1, label: "Node 1" },
+        { id: 2, label: "Node 2" },
+        { id: 3, label: "Node 3" },
+    ];
+    
+    const edgesTemp = [
+        { from: 1, to: 2 },
+        { from: 1, to: 3 },
+        { from: 2, to: 3 },
+    ];
+
+    useEffect(() => {
+        setNodes(nodesTemp);
+        setEdges(edgesTemp);
+    }, [])
 
     return (
         <main className="container mx-auto my-24 flex justify-center items-center">
@@ -141,6 +163,9 @@ export default function Home() {
                     csvFilePath="/data/keyword_counts.csv"
                     minCount={20}
                 />
+
+                {/* Network Visualization*/}
+                <NetworkComponent nodesData={nodes} edgesData={edges}/>
             </div>
         </main>
     );
