@@ -11,16 +11,30 @@ import BubbleMap from '@/components/BubbleMap';
 import BarChart from '@/components/BarChart';
 import NetworkComponent from '@/components/Network';
 
+import { extractKeywords } from '@/lib/extractKeywords';
+
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
     const [keywords, setKeywords] = useState([]);
 
-    const handleA2K = () => {
-        // Call API to convert Abstract to Keywords
-        alert('Converting Abstract to Keywords...');
-        setKeywords(['Keyword 1', 'Keyword 2', 'Keyword 3', 'Keyword 4', 'Keyword 5']);
-        setAbstractDisabled(true);
+    const handleA2K = async () => {
+        try {
+            if (!abstract) {
+                alert('Please enter an abstract before submitting.');
+                return;
+            }
+
+            console.log('Attempting to fetch keywords...');
+            const response = await extractKeywords(abstract);
+
+            const keywords = response;
+            setKeywords(keywords);
+            setAbstractDisabled(true);
+        } catch (error) {
+            console.error('Fetch error:', error);
+            alert('Failed to extract keywords. Please try again.');
+        }
     };
 
     const handleClear = () => {
@@ -31,7 +45,7 @@ export default function Home() {
 
     const [isCopied, setIsCopied] = useState(false);
     const handleCopy = () => {
-        const text = keywords.join(', ');
+        const text = keywords.map(([word]) => word).join(', ');
 
         navigator.clipboard.writeText(text).then(() => {
             setIsCopied(true);
@@ -59,11 +73,11 @@ export default function Home() {
     const [edges, setEdges] = useState(null);
 
     const nodesTemp = [
-        { id: 1, label: "Node 1" },
-        { id: 2, label: "Node 2" },
-        { id: 3, label: "Node 3" },
+        { id: 1, label: 'Node 1' },
+        { id: 2, label: 'Node 2' },
+        { id: 3, label: 'Node 3' },
     ];
-    
+
     const edgesTemp = [
         { from: 1, to: 2 },
         { from: 1, to: 3 },
@@ -73,7 +87,7 @@ export default function Home() {
     useEffect(() => {
         setNodes(nodesTemp);
         setEdges(edgesTemp);
-    }, [])
+    }, []);
 
     return (
         <main className="container mx-auto my-24 flex justify-center items-center">
@@ -125,7 +139,7 @@ export default function Home() {
                                         key={index}
                                         className="bg-black/5 rounded-full px-3 py-1 text-sm/6 text-black"
                                     >
-                                        {keyword}
+                                        {keyword[0]}
                                     </span>
                                 ))}
                                 <span key={'copy'}>
@@ -142,9 +156,7 @@ export default function Home() {
                 {
                     // Bar Chart
                     keywords.length > 0 && (
-                        <BarChart
-                            data={keywords.map((keyword) => [keyword, 10])}
-                        />
+                        <BarChart data={keywords.map((keyword) => keyword)} />
                     )
                 }
 
@@ -165,7 +177,7 @@ export default function Home() {
                 />
 
                 {/* Network Visualization*/}
-                <NetworkComponent path="/data/network_data_combined.json"/>
+                <NetworkComponent path="/data/network_data_combined.json" />
             </div>
         </main>
     );
