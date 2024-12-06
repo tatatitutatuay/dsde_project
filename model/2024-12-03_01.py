@@ -17,6 +17,8 @@ from sklearn.metrics import precision_recall_fscore_support
 from nltk.translate.bleu_score import sentence_bleu
 from rouge import Rouge
 
+# pip install torch transformers tqdm wandb pandas scikit-learn nltk rouge-score
+
 class KeywordDataset(Dataset):
     def __init__(self, abstracts, keywords, tokenizer, max_length=512):
         self.abstracts = abstracts
@@ -44,7 +46,7 @@ class KeywordDataset(Dataset):
         keyword_text = ', '.join(keyword_list)
         keyword_encoding = self.tokenizer(
             keyword_text,
-            max_length=100,
+            max_length=512,
             padding='max_length',
             truncation=True,
             return_tensors='pt'
@@ -95,7 +97,7 @@ class EarlyStopping:
 class TrainingConfig:
     def __init__(self,
                 num_epochs=30,
-                batch_size=16,
+                batch_size=8,
                 learning_rate=2e-5,
                 weight_decay=0.01,
                 patience=7,
@@ -154,6 +156,7 @@ def train_and_evaluate(model, train_loader, val_loader, config, device):
         model.train()
         total_loss = 0
         epoch_steps = 0
+        
         
         # Training phase
         with tqdm(train_loader, desc=f'Epoch {epoch + 1}/{config.num_epochs}') as pbar:
@@ -308,14 +311,14 @@ def prepare_data(csv_path, tokenizer_name="allenai/scibert_scivocab_uncased"):
     # Create dataloaders
     train_loader = DataLoader(
         train_dataset,
-        batch_size=16,
+        batch_size=8,
         shuffle=True,
         num_workers=4
     )
     
     val_loader = DataLoader(
         val_dataset,
-        batch_size=16,
+        batch_size=8,
         shuffle=False,
         num_workers=4
     )
@@ -341,6 +344,15 @@ class KeywordGenerator(nn.Module):
         )
         
     def forward(self, abstract_ids, abstract_mask, keyword_ids=None):
+        print(f"abstract_ids shape: {abstract_ids.shape}, device: {abstract_ids.device}")
+        print(f"abstract_mask shape: {abstract_mask.shape}, device: {abstract_mask.device}")
+        if keyword_ids is not None:
+            print(f"keyword_ids shape: {keyword_ids.shape}, device: {keyword_ids.device}")
+
+        # Ensure abstract_ids and abstract_mask are on the same device
+        abstract_ids = abstract_ids.to(self.encoder.device)
+        abstract_mask = abstract_mask.to(self.encoder.device)
+        
         # Encode abstract
         encoder_outputs = self.encoder(
             input_ids=abstract_ids,
@@ -352,13 +364,19 @@ class KeywordGenerator(nn.Module):
         
         # Decode
         if keyword_ids is not None:
+            # Ensure keyword_ids is on the right device
+            keyword_ids = keyword_ids.to(self.decoder.device)
+            
+            # Create cross attention mask
+            cross_attention_mask = abstract_mask.unsqueeze(1).unsqueeze(2)
+            
             decoder_outputs = self.decoder(
                 input_ids=keyword_ids,
                 encoder_hidden_states=encoder_outputs,
-                attention_mask=abstract_mask
+                encoder_attention_mask=abstract_mask  # Explicitly pass attention mask
             ).last_hidden_state
         else:
-            # Inference mode
+            # Inference mode implementation (similar modifications)
             batch_size = abstract_ids.size(0)
             decoder_inputs = torch.ones(
                 (batch_size, 1),
@@ -366,12 +384,12 @@ class KeywordGenerator(nn.Module):
                 device=abstract_ids.device
             ) * self.tokenizer.bos_token_id
             
-            max_length = 100
+            max_length = 512
             for _ in range(max_length - 1):
                 decoder_outputs = self.decoder(
                     input_ids=decoder_inputs,
                     encoder_hidden_states=encoder_outputs,
-                    attention_mask=abstract_mask
+                    encoder_attention_mask=abstract_mask
                 ).last_hidden_state
                 
                 next_token_logits = self.keyword_projection(
@@ -401,7 +419,7 @@ class KeywordPredictor:
         self.model.eval()
         self.rouge = Rouge()
         
-    def predict_keywords(self, abstract, max_length=100):
+    def predict_keywords(self, abstract, max_length=512):
         """
         Predict keywords for a single abstract
         """
@@ -559,7 +577,7 @@ def test_on_new_data(model_path, test_csv, tokenizer_name="allenai/scibert_scivo
         keywords=test_df['keywords'].values,
         tokenizer=tokenizer
     )
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=8, shuffle=False, drop_last=True)
     
     # Evaluate
     results = evaluate_model(model, test_loader, tokenizer, device)
@@ -603,7 +621,7 @@ def generate_keywords_for_single_abstract(abstract, model_path, tokenizer_name="
 
 def main():
     # Initialize data
-    train_loader, val_loader, tokenizer = prepare_data('data_noTHInAbstract.csv')
+    train_loader, val_loader, tokenizer = prepare_data('C:/Users/USER/Desktop/my-git/dsde_project/data_preparation/given_data/data/try.csv')
     
     # Initialize model (using the code from previous example)
     model = KeywordGenerator(

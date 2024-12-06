@@ -23,10 +23,7 @@ class KeywordExtractor:
         """
         # Download required NLTK data
         nltk.download('punkt')
-        nltk.download('punkt_tab')
         nltk.download('stopwords')
-        nltk.download('averaged_perceptron_tagger')
-        nltk.download('averaged_perceptron_tagger_eng')
         
         self.max_features = max_features
         self.ngram_range = ngram_range
@@ -110,6 +107,10 @@ class KeywordExtractor:
         print("Transforming keywords...")
         y = self.mlb.fit_transform(processed_keywords)
         
+        # Check if y contains only one class
+        if len(np.unique(y)) == 1:
+            raise ValueError("The target variable contains only one class. Please ensure that the dataset has more than one class for classification.")
+        
         # Split data
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=random_state
@@ -119,7 +120,8 @@ class KeywordExtractor:
         base_classifier = LogisticRegression(
             solver='saga',
             multi_class='ovr',
-            random_state=random_state
+            random_state=random_state,
+            max_iter=500
         )
         
         # Create multi-output classifier
@@ -192,14 +194,11 @@ class KeywordExtractor:
         y_pred_proba = self.classifier.predict_proba(X)
         
         # Get top k keywords based on probability
-        keywords = []
-        for i, estimator_proba in enumerate(y_pred_proba):
-            proba = estimator_proba[0]
-            if proba.max() > self.best_threshold:
-                keywords.append(self.mlb.classes_[i])
+        top_k_indices = np.argsort(y_pred_proba[0])[::-1][:top_k]
+        top_keywords = self.mlb.classes_[top_k_indices]
         
-        # Sort by probability and take top k
-        return sorted(set(keywords))[:top_k]
+        return top_keywords
+
     
     def save_model(self, filepath):
         """
@@ -238,7 +237,7 @@ class KeywordExtractor:
 # Example usage:
 def main():
     # Load your data
-    df = pd.read_csv('data_noTHInAbstract.csv')
+    df = pd.read_csv('C:/Users/USER/Desktop/my-git/dsde_project/data_preparation/given_data/data/data_noTHInAbstract.csv')
     
     # Initialize extractor
     extractor = KeywordExtractor(max_features=5000, ngram_range=(1, 2))
