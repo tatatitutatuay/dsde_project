@@ -27,7 +27,6 @@ export default function NetworkComponent({
             const options = {
                 nodes: {
                     shape: "dot",
-                    size: 16,
                     font: {
                         size: 16,
                     },
