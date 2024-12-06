@@ -2,7 +2,7 @@ import joblib
 import os
 
 # Load the saved model and vectorizer from 'look_good_model' folder
-def load_model(model_filename='keyword_extraction_model2.pkl', vectorizer_filename='tfidf_vectorizer2.pkl'):
+def load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filename='tfidf_vectorizer.pkl'):
     """
     Load the trained model and TF-IDF vectorizer from disk.
     
@@ -13,8 +13,8 @@ def load_model(model_filename='keyword_extraction_model2.pkl', vectorizer_filena
     Returns:
         tuple: Loaded model and vectorizer.
     """
-    model = joblib.load(os.path.join('model2', model_filename))
-    vectorizer = joblib.load(os.path.join('model2', vectorizer_filename))
+    model = joblib.load(os.path.join('model', model_filename))
+    vectorizer = joblib.load(os.path.join('model', vectorizer_filename))
     return model, vectorizer
 
 # Predict keywords from a new abstract using the trained model and vectorizer

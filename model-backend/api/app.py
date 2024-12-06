@@ -5,7 +5,7 @@ import os
 # Add the parent directory of "model2" to the system path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from model2.predict import predict_keywords_from_abstract
+from model.predict import predict_keywords_from_abstract
 
 app = Flask(__name__)
 
