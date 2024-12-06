@@ -1,34 +1,57 @@
 import pandas as pd
+import ast
 import json
 
-# Load the CSV file
-csv_file = "data_preparation/given_data/data/keyword_network.csv"  # Replace with your CSV file path
-df = pd.read_csv(csv_file)
+def normalize(value, old_min, old_max, new_min, new_max):
+    return ((value - old_min) / (old_max - old_min)) * (new_max - new_min) + new_min
 
-# Lists to store all nodes and edges
-all_nodes = []
-all_edges = []
+# Load the network.csv
+network_df = pd.read_csv('data_preparation\\given_data\\data\\network.csv')
 
-# Loop through the first 500 rows (from row 1 onwards)
-for row_index in range(1, 21):
-    # Get the keywords for the current row
-    keywords = df.iloc[row_index].dropna().tolist()  # Drop NaN values, convert to list
+# Prepare a list of nodes
+nodes = []
+for _, row in network_df.iterrows():
+    node_id = row['node_id']
+    keyword = row['keyword']
+    value = row['value']
 
-    # Create nodes
-    row_nodes = [{"id": len(all_nodes) + idx + 1, "label": keyword} for idx, keyword in enumerate(keywords)]
-    all_nodes.extend(row_nodes)  # Append nodes of this row to all_nodes
+    # Normalize the value to a range of 10 to 100
+    value = normalize(value, 30, network_df['value'].max(), 1, 20)
+    
+    # Add the node to the nodes list
+    nodes.append({
+        'id': node_id,
+        'label': keyword,
+        'size': int(value)
+    })
 
-    # Create edges (all-to-all connections within this row)
-    row_edges = []
-    for i in range(len(row_nodes)):
-        for j in range(i + 1, len(row_nodes)):
-            row_edges.append({"from": row_nodes[i]["id"], "to": row_nodes[j]["id"]})
-    all_edges.extend(row_edges)  # Append edges of this row to all_edges
+# Prepare a list of edges
+edges = []
+for _, row in network_df.iterrows():
+    node_id = row['node_id']
+    connection_str = row['connection']
+    
+    # If the connection is not empty, evaluate it
+    if pd.notna(connection_str) and connection_str != "":
+        connections = ast.literal_eval(connection_str)  # Convert string of node_ids to a list
+        
+        # Ensure connections is a list or tuple, and iterate over them
+        if isinstance(connections, (list, tuple)):
+            for connected_id in connections:
+                if connected_id != node_id:  # Avoid self-loop
+                    edges.append({
+                        'from': node_id,
+                        'to': connected_id
+                    })
 
-# Save the combined nodes and edges to a JSON file
-output_file = "data_preparation/given_data/data/network_data_combined.json"
-with open(output_file, "w") as f:
-    json.dump({"nodes": all_nodes, "edges": all_edges}, f, indent=4)
+# Prepare the final data in a JSON format
+network_data = {
+    'nodes': nodes,
+    'edges': edges
+}
 
-print(f"Network data for 500 rows combined and saved to {output_file}")
+# Save the data to a JSON file
+with open('data_preparation\\given_data\\data\\network_data.json', 'w') as json_file:
+    json.dump(network_data, json_file, indent=4)
 
+print("Successfully saved the network data in JSON format.")

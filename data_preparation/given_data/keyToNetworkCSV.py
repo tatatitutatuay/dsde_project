@@ -21,31 +21,45 @@ output_df = pd.DataFrame({
 keyword_to_value = dict(zip(keyword_counts_df['Keyword'], keyword_counts_df['Count']))
 output_df['value'] = output_df['keyword'].map(keyword_to_value).fillna(0)  # Fill missing values with 0
 
+# Filter out values less than 30 and the maximum value
+filtered_output_df = output_df[(output_df['value'] >= 30) & (output_df['value'] != output_df['value'].max())]
 
 # Step 4: Add connections
 connections = []
 for _, row in keywords_df.iterrows():
-    row_keywords = [kw for kw in row if kw]
-    node_ids = [keyword_to_node_id[kw] for kw in row_keywords]
-    # print(row_keywords, node_ids)
+    row_keywords = [kw for kw in row if kw]  # Get all non-null keywords
+    node_ids = [keyword_to_node_id[kw] for kw in row_keywords]  # Convert keywords to node ids
+    
     for node_id in node_ids:
-        connected_ids = tuple(sorted(set(nid for nid in node_ids if nid != node_id)))  # Ensure tuple, sorted, and no self-loops
-        connections.append({"node_id": node_id, "connection": connected_ids})  # Store as tuple for hashability
+
+        if node_id not in filtered_output_df['node_id'].values:
+            continue
+
+        # Generate the connected node ids, excluding the current node_id
+        connected_ids = sorted(set(nid for nid in node_ids if nid != node_id and nid in filtered_output_df['node_id'].values))  # No self-loops, sorted
+        
+        # If only one connected node, don't add a comma
+        if len(connected_ids) == 1:
+            connection = f"({connected_ids[0]})"
+        else:
+            connection = f"({', '.join(map(str, connected_ids))})"
+        
+        connections.append({"node_id": node_id, "connection": connection})  # Store connection as string
 
 connections_df = pd.DataFrame(connections)
 connections_df = connections_df.drop_duplicates(subset=["node_id", "connection"])
 
 # Merge connections into the output DataFrame
-output_df = output_df.merge(connections_df, on="node_id", how="left")
+output_df = filtered_output_df.merge(connections_df, on="node_id", how="left")
 
-# Clean the connection column and ensure all values are strings
-output_df['connection'] = output_df['connection'].astype(str).str.strip("()")  # Clean parentheses and convert to string
+# Clean parentheses and convert to string
+output_df['connection'] = output_df['connection'].astype(str).str.strip("()")  # Clean parentheses
 
 # Group by node_id and aggregate connections
 grouped_df = output_df.groupby(['node_id', 'keyword', 'value'], as_index=False).agg({
-    'connection': lambda x: f"({', '.join(sorted(set(', '.join(x).split(', '))))})"  # Combine and deduplicate connections
+    'connection': lambda x: f"({', '.join(sorted(set(filter(None, ', '.join(x).split(', ')))))})"  # Clean and deduplicate connections
 })
 
 # Save the result
-grouped_df.to_csv('data_preparation\given_data\data\\network.csv', index=False)
+grouped_df.to_csv('data_preparation\\given_data\\data\\network.csv', index=False)
 print("Successfully saved the consolidated output CSV file.")
