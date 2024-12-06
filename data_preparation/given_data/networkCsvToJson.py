@@ -2,8 +2,8 @@ import pandas as pd
 import json
 
 # Load the CSV file
-csv_file = "data_preparation/given_data/data/keywords.csv"  # Replace with your CSV file path
-df = pd.read_csv(csv_file, header=None, on_bad_lines='skip')  # Read without headers
+csv_file = "data_preparation/given_data/data/keyword_network.csv"  # Replace with your CSV file path
+df = pd.read_csv(csv_file)
 
 # Lists to store all nodes and edges
 all_nodes = []
