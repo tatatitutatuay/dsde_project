@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Papa from 'papaparse';
-import Plot from 'react-plotly.js';
+import dynamic from 'next/dynamic';
+
+// Dynamically import libraries to prevent SSR issues
+const Papa = dynamic(() => import('papaparse'), { ssr: false });
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 const ChoroplethMap = ({ keyword, color_num = 0 }) => {
     const [locations, setLocations] = useState([]);

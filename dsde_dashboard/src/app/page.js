@@ -70,12 +70,13 @@ export default function Home() {
 
     const [isCopied, setIsCopied] = useState(false);
     const handleCopy = () => {
-        const text = keywords.map(([word]) => word).join(', ');
-
-        navigator.clipboard.writeText(text).then(() => {
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 3000);
-        });
+        if (typeof window !== 'undefined' && navigator.clipboard) {
+            const text = keywords.map(([word]) => word).join(', ');
+            navigator.clipboard.writeText(text).then(() => {
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 3000);
+            });
+        }
     };
 
     const handleKeywordClick = (keyword, index) => {
