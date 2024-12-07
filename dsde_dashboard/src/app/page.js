@@ -2,7 +2,16 @@
 
 import { useState, useEffect } from 'react';
 
-import { Button, Field, Textarea } from '@headlessui/react';
+import {
+    Button,
+    Field,
+    Textarea,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
+} from '@headlessui/react';
 import { TypewriterEffect } from '@/components/ui/typewriter-effect';
 import clsx from 'clsx';
 
@@ -19,9 +28,6 @@ export default function Home() {
     const [abstractDisabled, setAbstractDisabled] = useState(false);
     const [keywords, setKeywords] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedKeyword, setSelectedKeyword] = useState(null);
-    const [selectedKeywordIndex, setSelectedKeywordIndex] = useState(0);
-    const [overall, setOverall] = useState(false);
 
     const handleA2K = async () => {
         try {
@@ -63,21 +69,6 @@ export default function Home() {
             setTimeout(() => setIsCopied(false), 3000);
         });
     };
-
-    // Bubble Map
-    const [populationData, setPopulationData] = useState(null);
-    const [worldMap, setWorldMap] = useState(null);
-
-    useEffect(() => {
-        // Fetch population data and world map
-        Promise.all([
-            fetch('/data/world_population.json').then((res) => res.json()),
-            fetch('/data/countries.geojson').then((res) => res.json()),
-        ]).then(([populationData, worldMap]) => {
-            setPopulationData(populationData);
-            setWorldMap(worldMap);
-        });
-    }, []);
 
     const handleKeywordClick = (keyword, index) => {
         setOverall(false);
@@ -169,6 +160,12 @@ export default function Home() {
                         </div>
                     )
                 }
+
+                {keywords.length > 0 && (
+                    <h3 className="text-2xl font-semibold text-black">
+                        Top Predicted Keywords
+                    </h3>
+                )}
                 {
                     // Bar Chart
                     keywords.length > 0 && (
@@ -178,37 +175,57 @@ export default function Home() {
 
                 {/* Buttons to select a keyword */}
                 {keywords.length > 0 && (
-                    <div className="flex gap-4">
-                        <Button2
-                            onClick={() => setOverall(true)}
-                            className="bg-gray-900 text-white py-2 px-4 rounded-lg"
-                        >
-                            over all
-                        </Button2>
-                        {keywords.map(([keyword, _], index) => (
-                            <Button2
-                                key={index}
-                                onClick={() =>
-                                    handleKeywordClick(keyword, index)
-                                }
-                                className="bg-gray-900 text-white py-2 px-4 rounded-lg"
-                            >
-                                {keyword}
-                            </Button2>
-                        ))}
-                    </div>
+                    <h3 className="text-2xl font-semibold text-black">
+                        Global Keyword Frequency Map
+                    </h3>
                 )}
-
-                {/* Choropleth Map */}
-                {keywords.length > 0 &&
-                    (overall ? (
-                        <ChoroplethMapOver keywords={keywords} />
-                    ) : (
-                        <ChoroplethMap
-                            keyword={selectedKeyword}
-                            color_num={selectedKeywordIndex}
-                        />
-                    ))}
+                {keywords.length > 0 && (
+                    <TabGroup>
+                        <TabList className="flex space-x-4 justify-center">
+                            <Tab
+                                key="overall"
+                                className={({ selected }) =>
+                                    clsx(
+                                        'py-2 px-4 rounded-lg text-sm font-medium focus:outline-none',
+                                        selected
+                                            ? 'bg-gray-900 text-white'
+                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                    )
+                                }
+                            >
+                                Overall
+                            </Tab>
+                            {keywords.map(([keyword, _], index) => (
+                                <Tab
+                                    key={index}
+                                    className={({ selected }) =>
+                                        clsx(
+                                            'py-2 px-4 rounded-lg text-sm font-medium focus:outline-none',
+                                            selected
+                                                ? 'bg-gray-900 text-white'
+                                                : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                        )
+                                    }
+                                >
+                                    {keyword}
+                                </Tab>
+                            ))}
+                        </TabList>
+                        <TabPanels className="mt-4">
+                            <TabPanel>
+                                <ChoroplethMapOver keywords={keywords} />
+                            </TabPanel>
+                            {keywords.map(([keyword, _], index) => (
+                                <TabPanel key={index}>
+                                    <ChoroplethMap
+                                        keyword={keyword}
+                                        color_num={index}
+                                    />
+                                </TabPanel>
+                            ))}
+                        </TabPanels>
+                    </TabGroup>
+                )}
 
                 {/* Word Cloud */}
                 <WordCloud

@@ -24,7 +24,9 @@ with open(input_file, mode='r', newline='', encoding='utf-8') as infile:
         for country in countries:
             for keyword in keywords:
                 if country and keyword:  # Skip None or empty values
-                    country_keyword_count[(country, keyword)] += 1
+                    # Convert keyword to lowercase
+                    keyword_lower = keyword.lower()
+                    country_keyword_count[(country, keyword_lower)] += 1
 
 # Sort the data by country and then by keyword
 sorted_data = sorted(

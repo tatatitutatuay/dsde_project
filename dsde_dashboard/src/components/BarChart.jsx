@@ -30,7 +30,6 @@ const BarChart = ({ data }) => {
                 },
             ]}
             layout={{
-                title: 'Top Predicted Keywords',
                 xaxis: {
                     title: 'Keywords',
                 },
@@ -38,7 +37,7 @@ const BarChart = ({ data }) => {
                     title: 'Relevance Score',
                 },
                 margin: {
-                    t: 50,
+                    t: 0,
                     r: 30,
                     b: 40,
                     l: 80,

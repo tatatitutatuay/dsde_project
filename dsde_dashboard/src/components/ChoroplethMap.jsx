@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Plot from 'react-plotly.js';
 
-const ChoroplethMap = ({ keyword, color_num = 0}) => {
+const ChoroplethMap = ({ keyword, color_num = 0 }) => {
     const [locations, setLocations] = useState([]);
     const [counts, setCounts] = useState([]);
 
@@ -143,7 +143,13 @@ const ChoroplethMap = ({ keyword, color_num = 0}) => {
             },
         },
         width: 1000,
-        height: 800,
+        height: 600,
+        margin: {
+            t: 20, // top margin
+            b: 20, // bottom margin
+            l: 40, // left margin
+            r: 40, // right margin
+        },
     };
 
     return (

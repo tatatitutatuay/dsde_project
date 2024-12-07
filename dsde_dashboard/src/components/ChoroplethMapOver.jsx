@@ -28,6 +28,7 @@ const ChoroplethMapOver = ({ keywords }) => {
                             if (typeof keyword === 'string') {
                                 const keywordLowerCase = keyword.toLowerCase();
 
+                                // Filter data where the keyword is part of the "keyword" field
                                 const dataForKey = result.data.filter(
                                     (row) =>
                                         row.keyword &&
@@ -57,11 +58,22 @@ const ChoroplethMapOver = ({ keywords }) => {
                     const keyword = row.keyword;
                     const count = parseInt(row.count, 10);
 
-                    // Aggregate counts per country per keyword
-                    if (!acc[isoCode]) acc[isoCode] = {};
-                    if (!acc[isoCode][keyword]) acc[isoCode][keyword] = 0;
+                    // Find the matching keyword in the keywords parameter (e.g., 'science')
+                    keywords.forEach(([keywordMatch]) => {
+                        if (
+                            keyword
+                                .toLowerCase()
+                                .includes(keywordMatch.toLowerCase())
+                        ) {
+                            const adjustedCount = count;
 
-                    acc[isoCode][keyword] += count;
+                            if (!acc[isoCode]) acc[isoCode] = {};
+                            if (!acc[isoCode][keywordMatch])
+                                acc[isoCode][keywordMatch] = 0;
+
+                            acc[isoCode][keywordMatch] += adjustedCount;
+                        }
+                    });
 
                     return acc;
                 }, {});
@@ -125,7 +137,13 @@ const ChoroplethMapOver = ({ keywords }) => {
             },
         },
         width: 1000,
-        height: 800,
+        height: 600,
+        margin: {
+            t: 20, // top margin
+            b: 20, // bottom margin
+            l: 40, // left margin
+            r: 40, // right margin
+        },
     };
 
     return (
