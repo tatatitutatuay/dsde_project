@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Plot from 'react-plotly.js';
@@ -5,7 +7,12 @@ import Plot from 'react-plotly.js';
 const ChoroplethMapOver = ({ keywords }) => {
     const [locations, setLocations] = useState([]);
     const [counts, setCounts] = useState([]);
-    const [hoverData, setHoverData] = useState([]); // Store hover information
+    const [hoverData, setHoverData] = useState([]);
+
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true); // Set to true after the component mounts (client-side)
+    }, []);
 
     if (!keywords) return <div>loading...</div>;
 
@@ -146,11 +153,7 @@ const ChoroplethMapOver = ({ keywords }) => {
         },
     };
 
-    return (
-        <div>
-            <Plot data={data} layout={layout} />
-        </div>
-    );
+    return <div>{isClient && <Plot data={data} layout={layout} />}</div>;
 };
 
 export default ChoroplethMapOver;

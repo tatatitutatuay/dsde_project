@@ -23,10 +23,18 @@ import NetworkComponent from '@/components/Network';
 
 import { extractKeywords } from '@/lib/extractKeywords';
 
+import dynamic from 'next/dynamic';
+
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
-    const [keywords, setKeywords] = useState([]);
+    const [keywords, setKeywords] = useState([
+        ['job', 0.42320736951515897],
+        ['professional', 0.3526728079292991],
+        ['information', 0.2821382463434393],
+        ['contextual', 0.21160368475757949],
+        ['heterogeneous', 0.21160368475757949],
+    ]);
     const [loading, setLoading] = useState(false);
 
     const handleA2K = async () => {

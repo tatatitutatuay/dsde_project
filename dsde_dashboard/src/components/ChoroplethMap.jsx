@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Plot from 'react-plotly.js';
@@ -5,6 +7,11 @@ import Plot from 'react-plotly.js';
 const ChoroplethMap = ({ keyword, color_num = 0 }) => {
     const [locations, setLocations] = useState([]);
     const [counts, setCounts] = useState([]);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true); // Set to true after the component mounts (client-side)
+    }, []);
 
     const colorScales = {
         0: [
@@ -152,11 +159,7 @@ const ChoroplethMap = ({ keyword, color_num = 0 }) => {
         },
     };
 
-    return (
-        <div>
-            <Plot data={data} layout={layout} />
-        </div>
-    );
+    return <div>{isClient && <Plot data={data} layout={layout} />}</div>;
 };
 
 export default ChoroplethMap;

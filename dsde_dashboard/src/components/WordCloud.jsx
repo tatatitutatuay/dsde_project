@@ -22,6 +22,9 @@ export default function WordCloud({
     const svgRef = useRef(null);
 
     useEffect(() => {
+        // Ensure this runs only on the client side
+        if (typeof window === 'undefined') return;
+
         // Load the CSV file and parse it
         const loadCSV = async () => {
             const data = await d3.csv(csvFilePath);
