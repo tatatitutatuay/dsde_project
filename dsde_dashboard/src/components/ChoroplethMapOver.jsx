@@ -1,18 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { parse } from 'csv-parse/browser/esm'; // Import csv-parse for browser
 
-// Dynamically import libraries to prevent SSR issues
-const Papa = dynamic(() => import('papaparse'), { ssr: false });
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 const ChoroplethMapOver = ({ keywords }) => {
     const [locations, setLocations] = useState([]);
     const [counts, setCounts] = useState([]);
     const [hoverData, setHoverData] = useState([]);
-
     const [isClient, setIsClient] = useState(false);
+
     useEffect(() => {
         setIsClient(true); // Set to true after the component mounts (client-side)
     }, []);
@@ -20,99 +19,126 @@ const ChoroplethMapOver = ({ keywords }) => {
     if (!keywords) return <div>loading...</div>;
 
     useEffect(() => {
-        // Parse the CSV file
-        Papa.parse('/data/keyword_country.csv', {
-            download: true,
-            header: true,
-            complete: (result) => {
-                let filteredData = [];
+        // Fetch and parse the CSV file using csv-parse
+        fetch('/data/keyword_country.csv')
+            .then((response) => response.text())
+            .then((csvData) => {
+                parse(
+                    csvData,
+                    {
+                        columns: true,
+                        skip_empty_lines: true,
+                    },
+                    (err, result) => {
+                        if (err) {
+                            console.error('Error parsing CSV:', err);
+                            return;
+                        }
 
-                if (Array.isArray(keywords)) {
-                    // If keywords is an array of tuples, use the first element (keyword) for filtering
-                    keywords.forEach((keywordTuple) => {
-                        if (
-                            Array.isArray(keywordTuple) &&
-                            keywordTuple.length === 2
-                        ) {
-                            const keyword = keywordTuple[0]; // Get the first element (keyword)
-                            if (typeof keyword === 'string') {
-                                const keywordLowerCase = keyword.toLowerCase();
+                        let filteredData = [];
 
-                                // Filter data where the keyword is part of the "keyword" field
-                                const dataForKey = result.data.filter(
-                                    (row) =>
-                                        row.keyword &&
-                                        row.keyword
-                                            .toLowerCase()
-                                            .includes(keywordLowerCase)
-                                );
-                                filteredData = [...filteredData, ...dataForKey];
-                            } else {
-                                console.error(
-                                    `Invalid keyword type: ${typeof keyword}. Expected string.`
-                                );
-                            }
+                        if (Array.isArray(keywords)) {
+                            // If keywords is an array of tuples, use the first element (keyword) for filtering
+                            keywords.forEach((keywordTuple) => {
+                                if (
+                                    Array.isArray(keywordTuple) &&
+                                    keywordTuple.length === 2
+                                ) {
+                                    const keyword = keywordTuple[0]; // Get the first element (keyword)
+                                    if (typeof keyword === 'string') {
+                                        const keywordLowerCase =
+                                            keyword.toLowerCase();
+
+                                        // Filter data where the keyword is part of the "keyword" field
+                                        const dataForKey = result.filter(
+                                            (row) =>
+                                                row.keyword &&
+                                                row.keyword
+                                                    .toLowerCase()
+                                                    .includes(keywordLowerCase)
+                                        );
+                                        filteredData = [
+                                            ...filteredData,
+                                            ...dataForKey,
+                                        ];
+                                    } else {
+                                        console.error(
+                                            `Invalid keyword type: ${typeof keyword}. Expected string.`
+                                        );
+                                    }
+                                } else {
+                                    console.error(
+                                        `Invalid keyword tuple: ${JSON.stringify(keywordTuple)}`
+                                    );
+                                }
+                            });
                         } else {
-                            console.error(
-                                `Invalid keyword tuple: ${JSON.stringify(keywordTuple)}`
-                            );
+                            console.error('Keywords is invalid or null');
                         }
-                    });
-                } else {
-                    console.error('Keywords is invalid or null');
-                }
 
-                // Aggregate the data for the filtered rows
-                const countryCounts = filteredData.reduce((acc, row) => {
-                    const isoCode = row.iso_a3;
-                    const keyword = row.keyword;
-                    const count = parseInt(row.count, 10);
+                        // Aggregate the data for the filtered rows
+                        const countryCounts = filteredData.reduce(
+                            (acc, row) => {
+                                const isoCode = row.iso_a3;
+                                const keyword = row.keyword;
+                                const count = parseInt(row.count, 10);
 
-                    // Find the matching keyword in the keywords parameter (e.g., 'science')
-                    keywords.forEach(([keywordMatch]) => {
-                        if (
-                            keyword
-                                .toLowerCase()
-                                .includes(keywordMatch.toLowerCase())
-                        ) {
-                            const adjustedCount = count;
+                                // Find the matching keyword in the keywords parameter (e.g., 'science')
+                                keywords.forEach(([keywordMatch]) => {
+                                    if (
+                                        keyword
+                                            .toLowerCase()
+                                            .includes(
+                                                keywordMatch.toLowerCase()
+                                            )
+                                    ) {
+                                        const adjustedCount = count;
 
-                            if (!acc[isoCode]) acc[isoCode] = {};
-                            if (!acc[isoCode][keywordMatch])
-                                acc[isoCode][keywordMatch] = 0;
+                                        if (!acc[isoCode]) acc[isoCode] = {};
+                                        if (!acc[isoCode][keywordMatch])
+                                            acc[isoCode][keywordMatch] = 0;
 
-                            acc[isoCode][keywordMatch] += adjustedCount;
-                        }
-                    });
+                                        acc[isoCode][keywordMatch] +=
+                                            adjustedCount;
+                                    }
+                                });
 
-                    return acc;
-                }, {});
+                                return acc;
+                            },
+                            {}
+                        );
 
-                // Map the aggregated data to locations, counts, and hover info
-                const countryCodes = Object.keys(countryCounts);
-                const countryCountsValues = countryCodes.map((code) =>
-                    Object.values(countryCounts[code]).reduce(
-                        (total, count) => total + count,
-                        0
-                    )
+                        // Map the aggregated data to locations, counts, and hover info
+                        const countryCodes = Object.keys(countryCounts);
+                        const countryCountsValues = countryCodes.map((code) =>
+                            Object.values(countryCounts[code]).reduce(
+                                (total, count) => total + count,
+                                0
+                            )
+                        );
+
+                        // Prepare hover info with aggregated keyword counts for each country
+                        const hoverInfo = countryCodes.map((code) => {
+                            return Object.entries(countryCounts[code])
+                                .map(
+                                    ([keyword, count]) => `${keyword}: ${count}`
+                                )
+                                .join('<br>'); // Join keyword counts by line breaks
+                        });
+
+                        setLocations(countryCodes);
+                        setCounts(countryCountsValues);
+                        setHoverData(hoverInfo);
+
+                        console.log('locations:', countryCodes);
+                        console.log('counts:', countryCountsValues);
+                        console.log('hoverData:', hoverInfo);
+                    }
                 );
-
-                // Prepare hover info with aggregated keyword counts for each country
-                const hoverInfo = countryCodes.map((code) => {
-                    return Object.entries(countryCounts[code])
-                        .map(([keyword, count]) => `${keyword}: ${count}`)
-                        .join('<br>'); // Join keyword counts by line breaks
-                });
-
-                setLocations(countryCodes);
-                setCounts(countryCountsValues);
-                setHoverData(hoverInfo);
-
-                console.log('locations:', countryCodes);
-                console.log('counts:', countryCountsValues);
-                console.log('hoverData:', hoverInfo);
-            },
-        });
+            })
+            .catch((error) => {
+                console.error('Error fetching CSV:', error);
+            });
     }, [keywords]);
 
     const data = [
@@ -156,7 +182,17 @@ const ChoroplethMapOver = ({ keywords }) => {
         },
     };
 
-    return <div>{isClient && <Plot data={data} layout={layout} />}</div>;
+    return (
+        <div>
+            {isClient && (
+                <Plot
+                    data={data}
+                    layout={layout}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            )}
+        </div>
+    );
 };
 
 export default ChoroplethMapOver;

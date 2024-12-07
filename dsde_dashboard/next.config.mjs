@@ -1,12 +1,10 @@
 import webpack from 'webpack';
 
 const nextConfig = {
-    webpack: (config) => {
-        config.plugins.push(
-            new webpack.DefinePlugin({
-                self: 'typeof window !== "undefined" ? window : {}', // Define `self` conditionally
-            })
-        );
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.cache = false;
+        }
         return config;
     },
     eslint: {

@@ -28,13 +28,7 @@ import dynamic from 'next/dynamic';
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
-    const [keywords, setKeywords] = useState([
-        ['job', 0.42320736951515897],
-        ['professional', 0.3526728079292991],
-        ['information', 0.2821382463434393],
-        ['contextual', 0.21160368475757949],
-        ['heterogeneous', 0.21160368475757949],
-    ]);
+    const [keywords, setKeywords] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handleA2K = async () => {
@@ -52,8 +46,6 @@ export default function Home() {
             const keywords = response;
             setKeywords(keywords);
             setAbstractDisabled(true);
-
-            setOverall(true);
         } catch (error) {
             console.error('Fetch error:', error);
             alert('Failed to extract keywords. Please try again.');
@@ -77,12 +69,6 @@ export default function Home() {
                 setTimeout(() => setIsCopied(false), 3000);
             });
         }
-    };
-
-    const handleKeywordClick = (keyword, index) => {
-        setOverall(false);
-        setSelectedKeyword(keyword);
-        setSelectedKeywordIndex(index);
     };
 
     // Network Visualization
@@ -239,7 +225,7 @@ export default function Home() {
                 {/* Word Cloud */}
                 <WordCloud
                     csvFilePath="/data/keyword_counts.csv"
-                    minCount={40}
+                    minCount={30}
                 />
                 {/* Network Visualization*/}
                 <NetworkComponent path="data\network_data.json" />

@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { parse } from 'csv-parse/browser/esm';
 
-// Dynamically import libraries to prevent SSR issues
-const Papa = dynamic(() => import('papaparse'), { ssr: false });
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 const ChoroplethMap = ({ keyword, color_num = 0 }) => {
@@ -62,78 +61,101 @@ const ChoroplethMap = ({ keyword, color_num = 0 }) => {
     };
 
     useEffect(() => {
-        // Parse the CSV file
-        Papa.parse('/data/keyword_country.csv', {
-            download: true,
-            header: true,
-            complete: (result) => {
-                let filteredData = [];
+        // Fetch CSV file and parse using csv-parse
+        fetch('/data/keyword_country.csv')
+            .then((response) => response.text())
+            .then((csvData) => {
+                parse(
+                    csvData,
+                    {
+                        columns: true,
+                        skip_empty_lines: true,
+                    },
+                    (err, result) => {
+                        if (err) {
+                            console.error('Error parsing CSV:', err);
+                            return;
+                        }
 
-                if (Array.isArray(keyword)) {
-                    // If keyword is an array, sum up the counts for each keyword
-                    keyword.forEach((key) => {
-                        if (typeof key === 'string') {
-                            const keyLowerCase = key.toLowerCase();
+                        let filteredData = [];
 
-                            const dataForKey = result.data.filter(
+                        if (Array.isArray(keyword)) {
+                            // If keyword is an array, sum up the counts for each keyword
+                            keyword.forEach((key) => {
+                                if (typeof key === 'string') {
+                                    const keyLowerCase = key.toLowerCase();
+
+                                    const dataForKey = result.filter(
+                                        (row) =>
+                                            row.keyword &&
+                                            row.keyword
+                                                .toLowerCase()
+                                                .includes(keyLowerCase)
+                                    );
+                                    filteredData = [
+                                        ...filteredData,
+                                        ...dataForKey,
+                                    ];
+                                } else {
+                                    console.error(
+                                        `Invalid keyword type: ${typeof key}. Expected string.`
+                                    );
+                                }
+                            });
+                        } else if (keyword) {
+                            // If keyword is a single string, process as before
+                            const keywordLowerCase = keyword.toLowerCase();
+                            filteredData = result.filter(
                                 (row) =>
                                     row.keyword &&
                                     row.keyword
                                         .toLowerCase()
-                                        .includes(keyLowerCase)
+                                        .includes(keywordLowerCase)
                             );
-                            filteredData = [...filteredData, ...dataForKey];
                         } else {
-                            console.error(
-                                `Invalid keyword type: ${typeof key}. Expected string.`
-                            );
+                            console.error('Keyword is invalid or null');
                         }
-                    });
-                } else if (keyword) {
-                    // If keyword is a single string, process as before
-                    const keywordLowerCase = keyword.toLowerCase();
-                    filteredData = result.data.filter(
-                        (row) =>
-                            row.keyword &&
-                            row.keyword.toLowerCase().includes(keywordLowerCase)
-                    );
-                } else {
-                    console.error('Keyword is invalid or null');
-                }
 
-                // Aggregate the data for the filtered rows
-                const countryCounts = filteredData.reduce((acc, row) => {
-                    const isoCode = row.iso_a3;
-                    const count = parseInt(row.count, 10);
-                    if (acc[isoCode]) {
-                        acc[isoCode] += count;
-                    } else {
-                        acc[isoCode] = count;
+                        // Aggregate the data for the filtered rows
+                        const countryCounts = filteredData.reduce(
+                            (acc, row) => {
+                                const isoCode = row.iso_a3;
+                                const count = parseInt(row.count, 10);
+                                if (acc[isoCode]) {
+                                    acc[isoCode] += count;
+                                } else {
+                                    acc[isoCode] = count;
+                                }
+                                return acc;
+                            },
+                            {}
+                        );
+
+                        // Map the aggregated data to locations and counts
+                        const countryCodes = Object.keys(countryCounts);
+                        const countryCountsValues =
+                            Object.values(countryCounts);
+
+                        setLocations(countryCodes);
+                        setCounts(countryCountsValues);
+
+                        console.log('locations:', countryCodes);
+                        console.log('counts:', countryCountsValues);
                     }
-                    return acc;
-                }, {});
-
-                // Map the aggregated data to locations and counts
-                const countryCodes = Object.keys(countryCounts);
-                const countryCountsValues = Object.values(countryCounts);
-
-                setLocations(countryCodes);
-                setCounts(countryCountsValues);
-
-                console.log('locations:', countryCodes);
-                console.log('counts:', countryCountsValues);
-            },
-        });
+                );
+            })
+            .catch((error) => {
+                console.error('Error fetching CSV:', error);
+            });
     }, [keyword]);
 
-    // Use the color scale corresponding to the given color_num
     const selectedColorscale = colorScales[color_num] || colorScales[0];
 
     const data = [
         {
             type: 'choroplethmap',
-            locations: locations, // ISO country codes
-            z: counts, // Data values
+            locations: locations,
+            z: counts,
             geojson:
                 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json',
             colorscale: selectedColorscale,
@@ -155,14 +177,24 @@ const ChoroplethMap = ({ keyword, color_num = 0 }) => {
         width: 1000,
         height: 600,
         margin: {
-            t: 20, // top margin
-            b: 20, // bottom margin
-            l: 40, // left margin
-            r: 40, // right margin
+            t: 20,
+            b: 20,
+            l: 40,
+            r: 40,
         },
     };
 
-    return <div>{isClient && <Plot data={data} layout={layout} />}</div>;
+    return (
+        <div>
+            {isClient && (
+                <Plot
+                    data={data}
+                    layout={layout}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            )}
+        </div>
+    );
 };
 
 export default ChoroplethMap;
