@@ -5,7 +5,7 @@ const BarChart = ({ data }) => {
     const svgRef = useRef();
 
     useEffect(() => {
-        if (!data) return;
+        if (!data) return <div> No Data </div>;
 
         const margin = { top: 20, right: 30, bottom: 40, left: 40 };
         const width = 500 - margin.left - margin.right;
