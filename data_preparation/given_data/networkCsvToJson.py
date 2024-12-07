@@ -16,13 +16,14 @@ for _, row in network_df.iterrows():
     value = row['value']
 
     # Normalize the value to a range of 10 to 100
-    value = normalize(value, 20, network_df['value'].max(), 8, 50)
+    value = normalize(value, 20, network_df['value'].max(), 8, 40)
     
     # Add the node to the nodes list
     nodes.append({
         'id': node_id,
         'label': keyword,
-        'size': int(value)
+        'size': int(value),
+        'font' : { 'size': int(value) }
     })
 
 # Prepare a list of edges
