@@ -7,12 +7,12 @@ import { useEffect, useRef, useState } from 'react';
 export default function WordCloud({
     csvFilePath = '/path/to/keyword_counts.csv', // Path to the CSV file
     size = (d) => d.size,
-    width = 1280,
+    width = 1000,
     height = 500,
     fontFamily = 'sans-serif',
     fontScale = 15,
     minFontSize = 10,
-    maxFontSize = 100,
+    maxFontSize = 70,
     padding = 5,
     rotate = 0,
     maxWords = 250,

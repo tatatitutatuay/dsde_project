@@ -173,7 +173,7 @@ export default function Home() {
                 {/* Word Cloud */}
                 <WordCloud
                     csvFilePath="/data/keyword_counts.csv"
-                    minCount={20}
+                    minCount={40}
                 />
 
                 {/* Network Visualization*/}
