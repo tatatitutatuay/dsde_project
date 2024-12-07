@@ -2,7 +2,7 @@ import joblib
 import os
 
 # Load the saved model and vectorizer from 'look_good_model' folder
-def load_model(model_filename='keyword_extraction_model.pkl', vectorizer_filename='tfidf_vectorizer.pkl'):
+def load_model(model_filename='keyword_extraction_model_last.pkl', vectorizer_filename='tfidf_vectorizer_last.pkl'):
     """
     Load the trained model and TF-IDF vectorizer from disk.
     

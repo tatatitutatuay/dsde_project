@@ -1,1 +1,1 @@
-web: python model-backend/api/app.py
+web: python api/app.py
