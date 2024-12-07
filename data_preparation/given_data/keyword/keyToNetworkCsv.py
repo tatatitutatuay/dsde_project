@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Step 1: Load the CSV files
-keywords_df = pd.read_csv('data_preparation\given_data\data\keywords.csv', on_bad_lines='skip')
-keyword_counts_df = pd.read_csv('data_preparation\given_data\data\keyword_counts_2.csv')
+keywords_df = pd.read_csv('data_preparation\given_data\keyword\keywords.csv', on_bad_lines='skip')
+keyword_counts_df = pd.read_csv('data_preparation\given_data\keyword\keywords_count.csv')
 
 keywords_df = keywords_df.fillna("")
 
@@ -61,5 +61,5 @@ grouped_df = output_df.groupby(['node_id', 'keyword', 'value'], as_index=False).
 })
 
 # Save the result
-grouped_df.to_csv('data_preparation\\given_data\\data\\network.csv', index=False)
+grouped_df.to_csv('data_preparation\\given_data\\keyword\\network.csv', index=False)
 print("Successfully saved the consolidated output CSV file.")

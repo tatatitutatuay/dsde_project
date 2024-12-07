@@ -2,7 +2,7 @@ import pandas as pd
 from collections import Counter
 
 # Load the CSV file
-keywords_df = pd.read_csv('data_preparation\given_data\data\keywords.csv', on_bad_lines='skip')
+keywords_df = pd.read_csv('data_preparation\given_data\keyword\keywords.csv', on_bad_lines='skip')
 
 # Flatten the DataFrame into a list of keywords, ignoring empty cells
 keywords_list = keywords_df.values.ravel()  # Flatten the DataFrame into a 1D array
@@ -21,7 +21,7 @@ keyword_counts_df = keyword_counts_df.sort_values(by='Count', ascending=False)
 keyword_counts_df = keyword_counts_df.dropna()
 
 # Save the results to a CSV
-keyword_counts_df.to_csv('data_preparation\given_data\data\keyword_counts_2.csv', index=False)
+keyword_counts_df.to_csv('data_preparation\given_data\keyword\keyword_counts.csv', index=False)
 
 # Display the result
 print(keyword_counts_df)

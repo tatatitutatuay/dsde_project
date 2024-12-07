@@ -6,7 +6,7 @@ def normalize(value, old_min, old_max, new_min, new_max):
     return ((value - old_min) / (old_max - old_min)) * (new_max - new_min) + new_min
 
 # Load the network.csv
-network_df = pd.read_csv('data_preparation\\given_data\\data\\network.csv')
+network_df = pd.read_csv('data_preparation\\given_data\\keyword\\network.csv')
 
 # Prepare a list of nodes
 nodes = []
@@ -16,7 +16,7 @@ for _, row in network_df.iterrows():
     value = row['value']
 
     # Normalize the value to a range of 10 to 100
-    value = normalize(value, 20, network_df['value'].max(), 8, 40)
+    value = normalize(value, 20, network_df['value'].max(), 12, 60)
     
     # Add the node to the nodes list
     nodes.append({
@@ -52,7 +52,7 @@ network_data = {
 }
 
 # Save the data to a JSON file
-with open('data_preparation\\given_data\\data\\network_data.json', 'w') as json_file:
+with open('data_preparation\\given_data\\keyword\\network_data.json', 'w') as json_file:
     json.dump(network_data, json_file, indent=4)
 
 print("Successfully saved the network data in JSON format.")
