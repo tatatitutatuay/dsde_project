@@ -16,7 +16,7 @@ for _, row in network_df.iterrows():
     value = row['value']
 
     # Normalize the value to a range of 10 to 100
-    value = normalize(value, 30, network_df['value'].max(), 1, 20)
+    value = normalize(value, 20, network_df['value'].max(), 8, 50)
     
     # Add the node to the nodes list
     nodes.append({
@@ -38,7 +38,7 @@ for _, row in network_df.iterrows():
         # Ensure connections is a list or tuple, and iterate over them
         if isinstance(connections, (list, tuple)):
             for connected_id in connections:
-                if connected_id != node_id:  # Avoid self-loop
+                if connected_id > node_id:  # Avoid duplicate edges
                     edges.append({
                         'from': node_id,
                         'to': connected_id

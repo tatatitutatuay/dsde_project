@@ -22,7 +22,7 @@ keyword_to_value = dict(zip(keyword_counts_df['Keyword'], keyword_counts_df['Cou
 output_df['value'] = output_df['keyword'].map(keyword_to_value).fillna(0)  # Fill missing values with 0
 
 # Filter out values less than 30 and the maximum value
-filtered_output_df = output_df[(output_df['value'] >= 30) & (output_df['value'] != output_df['value'].max())]
+filtered_output_df = output_df[(output_df['value'] >= 20) & (output_df['value'] != output_df['value'].max())]
 
 # Step 4: Add connections
 connections = []
