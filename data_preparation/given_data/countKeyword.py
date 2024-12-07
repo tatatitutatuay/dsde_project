@@ -1,7 +1,7 @@
 import pandas as pd
 import ast
 
-df = pd.read_csv("data_preparation/given_data/keyword/data_noTHInAbstract.csv")
+df = pd.read_csv("data_preparation/given_data/data/data_noTHInAbstract.csv")
 
 # Convert string representations of lists into actual lists
 keywords = df['keywords'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) and x != '[]' else [])
