@@ -3,887 +3,1418 @@
         {
             "id": 7,
             "label": "Classification",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 12,
             "label": "Biodiesel",
-            "size": 14
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 29,
             "label": "Elderly",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 37,
             "label": "Alginate",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 52,
             "label": "cat",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 76,
             "label": "Asia",
-            "size": 17
+            "size": 15,
+            "font": {
+                "size": 15
+            }
         },
         {
             "id": 77,
             "label": "Hadron-Hadron scattering (experiments)",
-            "size": 29
+            "size": 24,
+            "font": {
+                "size": 24
+            }
         },
         {
             "id": 79,
             "label": "Apoptosis",
-            "size": 13
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 105,
             "label": "Breast cancer",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 106,
             "label": "Chitosan",
-            "size": 13
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 110,
             "label": "Bacterial cellulose",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 116,
             "label": "Bio-oil",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 128,
             "label": "Biomarkers",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 135,
             "label": "DFT",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 157,
             "label": "Depression",
-            "size": 16
+            "size": 14,
+            "font": {
+                "size": 14
+            }
         },
         {
             "id": 159,
             "label": "Bipolar disorder",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 162,
             "label": "Adsorption",
-            "size": 16
+            "size": 14,
+            "font": {
+                "size": 14
+            }
         },
         {
             "id": 183,
             "label": "antioxidant",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 198,
             "label": "Biorefinery",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 204,
             "label": "Antibacterial",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 220,
             "label": "Beyond Standard Model",
-            "size": 14
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 230,
             "label": "CMS",
-            "size": 20
+            "size": 17,
+            "font": {
+                "size": 17
+            }
         },
         {
             "id": 242,
             "label": "Antimicrobial resistance",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 244,
             "label": "Hydrogen",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 260,
             "label": "Cellulose",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 262,
             "label": "Antioxidant activity",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 264,
             "label": "Glycerol",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 267,
             "label": "Gene expression",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 286,
             "label": "Acute kidney injury",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 315,
             "label": "Antioxidant",
-            "size": 14
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 336,
             "label": "aging",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 356,
             "label": "Arsenic",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 376,
             "label": "Activated carbon",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 387,
             "label": "Epidemiology",
-            "size": 12
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 425,
             "label": "component",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 429,
             "label": "Escherichia coli",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 433,
             "label": "Deep learning",
-            "size": 13
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 469,
             "label": "Diagnosis",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 476,
             "label": "Dog",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 507,
             "label": "Children",
-            "size": 13
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 511,
             "label": "CO2capture",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 515,
             "label": "Molecular dynamics simulation",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 524,
             "label": "Biomass",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 592,
             "label": "Hydrogel",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 639,
             "label": "Antioxidants",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 641,
             "label": "epidemiology",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 798,
             "label": "Density functional theory",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 830,
             "label": "HIV",
-            "size": 23
+            "size": 19,
+            "font": {
+                "size": 19
+            }
         },
         {
             "id": 854,
             "label": "Bangkok",
-            "size": 13
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 863,
             "label": "children",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 868,
             "label": "inflammation",
-            "size": 15
+            "size": 13,
+            "font": {
+                "size": 13
+            }
         },
         {
             "id": 897,
             "label": "Biomarker",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 925,
             "label": "Pharmacokinetics",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 996,
             "label": "Antimicrobial activity",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1011,
             "label": "apoptosis",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1061,
             "label": "Cytotoxicity",
-            "size": 12
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 1209,
             "label": "Compressive strength",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1256,
             "label": "Biogas",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1258,
             "label": "Aging",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1282,
             "label": "Cytokines",
-            "size": 13
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 1322,
             "label": "depression",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 1423,
             "label": "Hypertension",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1429,
             "label": "Obesity",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 1462,
             "label": "Indochina",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1637,
             "label": "Graphene",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1752,
             "label": "Cancer",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 1981,
             "label": "Mechanical properties",
-            "size": 12
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 2029,
             "label": "Cyanobacteria",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 2041,
             "label": "Distribution",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 2098,
             "label": "Natural rubber",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 2286,
             "label": "Inflammation",
-            "size": 25
+            "size": 21,
+            "font": {
+                "size": 21
+            }
         },
         {
             "id": 2287,
             "label": "Curcumin",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 2338,
             "label": "Dogs",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 2453,
             "label": "machine learning",
-            "size": 13
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 2595,
             "label": "Meta-analysis",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 2619,
             "label": "Immune",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 2667,
             "label": "Lung cancer",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 2807,
             "label": "Fly ash",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 2823,
             "label": "Hepatocellular carcinoma",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 2875,
             "label": "biomarker",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3000,
             "label": "Quality of life",
-            "size": 12
+            "size": 11,
+            "font": {
+                "size": 11
+            }
         },
         {
             "id": 3239,
             "label": "cytotoxicity",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 3345,
             "label": "Indonesia",
-            "size": 10
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 3440,
             "label": "Mortality",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 3520,
             "label": "Silver nanoparticles",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 3538,
             "label": "Corporate governance",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3567,
             "label": "deep learning",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 3578,
             "label": "chronic kidney disease",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3600,
             "label": "Biochar",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3630,
             "label": "Machine learning",
-            "size": 17
+            "size": 15,
+            "font": {
+                "size": 15
+            }
         },
         {
             "id": 3695,
             "label": "Gulf of Thailand",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3795,
             "label": "Artificial intelligence",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3836,
             "label": "Methanol",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 3929,
             "label": "COVID-19",
-            "size": 50
+            "size": 40,
+            "font": {
+                "size": 40
+            }
         },
         {
             "id": 4148,
             "label": "Covid-19",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 4192,
             "label": "Nanocomposite",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 4465,
             "label": "Malaria",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 4682,
             "label": "Plasmodium falciparum",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 4844,
             "label": "cytokines",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 5041,
             "label": "Hydrogen production",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 5185,
             "label": "Education",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 5480,
             "label": "biomarkers",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 6225,
             "label": "Microalgae",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 6321,
             "label": "SARS-CoV-2",
-            "size": 23
+            "size": 19,
+            "font": {
+                "size": 19
+            }
         },
         {
             "id": 6384,
             "label": "dog",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 6696,
             "label": "Kinetics",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 7032,
             "label": "mortality",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 7145,
             "label": "meta-analysis",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 7760,
             "label": "Morphology",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 8363,
             "label": "Hadron-Hadron Scattering",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 8771,
             "label": "Immunohistochemistry",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 9484,
             "label": "Mental health",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 10083,
             "label": "Photocatalyst",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 10223,
             "label": "Molecular docking",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 11406,
             "label": "Thai",
-            "size": 13
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 11501,
             "label": "Higgs physics",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 11505,
             "label": "Supersymmetry",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 11582,
             "label": "Top physics",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 11594,
             "label": "Microstructure",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 11621,
             "label": "Nanoparticles",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 11690,
             "label": "Prevalence",
-            "size": 9
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 11769,
             "label": "Physics",
-            "size": 14
+            "size": 12,
+            "font": {
+                "size": 12
+            }
         },
         {
             "id": 11792,
             "label": "Myanmar",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 11803,
             "label": "Pyrolysis",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 12278,
             "label": "Pregnancy",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 12368,
             "label": "Parkinsons disease",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 12409,
             "label": "Hydroxyapatite",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 12661,
             "label": "Nanocomposites",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 12934,
             "label": "Knowledge",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 12938,
             "label": "peritoneal dialysis",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 13164,
             "label": "Risk factors",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 13263,
             "label": "Probiotics",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 13603,
             "label": "quality of life",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 13792,
             "label": "Photocatalysis",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 13862,
             "label": "obesity",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 14067,
             "label": "Poly(lactic acid)",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 14118,
             "label": "Sustainability",
-            "size": 10
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 14120,
             "label": "Supply chain",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 14128,
             "label": "Oxidative stress",
-            "size": 18
+            "size": 15,
+            "font": {
+                "size": 15
+            }
         },
         {
             "id": 14447,
             "label": "Pig",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 14987,
             "label": "Safety",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 15096,
             "label": "Major depression",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 15171,
             "label": "prevalence",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 15367,
             "label": "neuro-immune",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 15728,
             "label": "Proteomics",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 15911,
             "label": "Parkinson\u2019s disease",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 16121,
             "label": "Simulation",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 16505,
             "label": "Southeast Asia",
-            "size": 15
+            "size": 13,
+            "font": {
+                "size": 13
+            }
         },
         {
             "id": 16668,
             "label": "PM2.5",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 16721,
             "label": "Optimization",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 18429,
             "label": "risk factors",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 18482,
             "label": "Response surface methodology",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 20688,
             "label": "Psychiatry",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 20962,
             "label": "Neuro-immune",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 21810,
             "label": "Rice",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22061,
             "label": "psychiatry",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22307,
             "label": "Middle East",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22475,
             "label": "Zeolite",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22671,
             "label": "Sensor",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22692,
             "label": "Transesterification",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22836,
             "label": "systematic review",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 22899,
             "label": "Vietnam",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 23120,
             "label": "Taxonomy",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 23170,
             "label": "Stroke",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 23220,
             "label": "Schizophrenia",
-            "size": 11
+            "size": 10,
+            "font": {
+                "size": 10
+            }
         },
         {
             "id": 23644,
             "label": "Systematic review",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 23894,
             "label": "Stability",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 23923,
             "label": "Survival",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 24018,
             "label": "Wastewater",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 26814,
             "label": "oxidative stress",
-            "size": 10
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 30197,
             "label": "taxonomy",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 30207,
             "label": "Vaccine",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 30455,
             "label": "vaccine",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 32719,
             "label": "Oxidative and nitrosative stress",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 32811,
             "label": "Treatment",
-            "size": 9
+            "size": 9,
+            "font": {
+                "size": 9
+            }
         },
         {
             "id": 33125,
             "label": "treatment",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         },
         {
             "id": 45959,
             "label": "Species diversity",
-            "size": 8
+            "size": 8,
+            "font": {
+                "size": 8
+            }
         }
     ],
     "edges": [
