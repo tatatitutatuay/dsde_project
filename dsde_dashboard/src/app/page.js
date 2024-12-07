@@ -7,8 +7,9 @@ import { TypewriterEffect } from '@/components/ui/typewriter-effect';
 import clsx from 'clsx';
 
 import WordCloud from '@/components/WordCloud';
-import BubbleMap from '@/components/BubbleMap';
 import BarChart from '@/components/BarChart';
+import ChoroplethMap from '@/components/ChoroplethMap';
+import ChoroplethMapOver from '@/components/ChoroplethMapOver';
 import NetworkComponent from '@/components/Network';
 
 import { extractKeywords } from '@/lib/extractKeywords';
@@ -17,7 +18,10 @@ export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
     const [keywords, setKeywords] = useState([]);
-    const [loading, setLoading] = useState(false); // Track loading state
+    const [loading, setLoading] = useState(false);
+    const [selectedKeyword, setSelectedKeyword] = useState(null);
+    const [selectedKeywordIndex, setSelectedKeywordIndex] = useState(0);
+    const [overall, setOverall] = useState(false);
 
     const handleA2K = async () => {
         try {
@@ -34,6 +38,8 @@ export default function Home() {
             const keywords = response;
             setKeywords(keywords);
             setAbstractDisabled(true);
+
+            setOverall(true);
         } catch (error) {
             console.error('Fetch error:', error);
             alert('Failed to extract keywords. Please try again.');
@@ -72,6 +78,12 @@ export default function Home() {
             setWorldMap(worldMap);
         });
     }, []);
+
+    const handleKeywordClick = (keyword, index) => {
+        setOverall(false);
+        setSelectedKeyword(keyword);
+        setSelectedKeywordIndex(index);
+    };
 
     // Network Visualization
     const [nodes, setNodes] = useState(null);
@@ -113,7 +125,6 @@ export default function Home() {
                         data from Chulalongkorn University Library.
                     </p>
                 </div>
-
                 {/* Textarea */}
                 <div className="flex flex-col justify-center items-end gap-4 max-w-2xl w-full">
                     <TextField
@@ -132,7 +143,6 @@ export default function Home() {
                         </Button2>
                     )}
                 </div>
-
                 {
                     // Keywords
                     keywords.length > 0 && (
@@ -159,7 +169,6 @@ export default function Home() {
                         </div>
                     )
                 }
-
                 {
                     // Bar Chart
                     keywords.length > 0 && (
@@ -167,22 +176,45 @@ export default function Home() {
                     )
                 }
 
-                {
-                    // Bubble Map
-                    keywords.length > 0 && (
-                        <BubbleMap
-                            populationData={populationData}
-                            worldMap={worldMap}
+                {/* Buttons to select a keyword */}
+                {keywords.length > 0 && (
+                    <div className="flex gap-4">
+                        <Button2
+                            onClick={() => setOverall(true)}
+                            className="bg-gray-900 text-white py-2 px-4 rounded-lg"
+                        >
+                            over all
+                        </Button2>
+                        {keywords.map(([keyword, _], index) => (
+                            <Button2
+                                key={index}
+                                onClick={() =>
+                                    handleKeywordClick(keyword, index)
+                                }
+                                className="bg-gray-900 text-white py-2 px-4 rounded-lg"
+                            >
+                                {keyword}
+                            </Button2>
+                        ))}
+                    </div>
+                )}
+
+                {/* Choropleth Map */}
+                {keywords.length > 0 &&
+                    (overall ? (
+                        <ChoroplethMapOver keywords={keywords} />
+                    ) : (
+                        <ChoroplethMap
+                            keyword={selectedKeyword}
+                            color_num={selectedKeywordIndex}
                         />
-                    )
-                }
+                    ))}
 
                 {/* Word Cloud */}
                 <WordCloud
                     csvFilePath="/data/keyword_counts.csv"
                     minCount={40}
                 />
-
                 {/* Network Visualization*/}
                 <NetworkComponent path="data\network_data.json" />
             </div>

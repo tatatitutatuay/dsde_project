@@ -1,0 +1,41 @@
+import csv
+from collections import defaultdict
+import pycountry  # Install this library if not already installed
+
+# Function to get ISO Alpha-3 code for a country
+def get_iso_a3(country_name):
+    try:
+        return pycountry.countries.lookup(country_name).alpha_3
+    except LookupError:
+        return 'N/A'  # Return 'N/A' if the country code is not found
+
+# Input and output file paths
+input_file = 'C:/Users/USER/Desktop/my-git/dsde_project/data_preparation/given_data/data/filtered_scopus_data.csv'  # Replace with the actual file path
+output_file = 'output_with_iso.csv'
+
+# Data processing
+country_keyword_count = defaultdict(int)
+
+with open(input_file, mode='r', newline='', encoding='utf-8') as infile:
+    reader = csv.DictReader(infile)
+    for row in reader:
+        countries = eval(row['affiliation-country'])
+        keywords = eval(row['keywords'])
+        for country in countries:
+            for keyword in keywords:
+                if country and keyword:  # Skip None or empty values
+                    country_keyword_count[(country, keyword)] += 1
+
+# Sort the data by country and then by keyword
+sorted_data = sorted(
+    country_keyword_count.items(),
+    key=lambda x: (x[0][0] or '', x[0][1] or '')  # Replace None with empty strings for sorting
+)
+
+# Write to output CSV
+with open(output_file, mode='w', newline='', encoding='utf-8') as outfile:
+    writer = csv.writer(outfile)
+    writer.writerow(['country', 'iso_a3', 'keyword', 'count'])
+    for (country, keyword), count in sorted_data:
+        iso_a3 = get_iso_a3(country or 'Unknown')  # Handle None for country
+        writer.writerow([country or 'Unknown', iso_a3, keyword or 'Unknown', count])
