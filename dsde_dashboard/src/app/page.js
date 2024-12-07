@@ -17,6 +17,7 @@ export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
     const [keywords, setKeywords] = useState([]);
+    const [loading, setLoading] = useState(false); // Track loading state
 
     const handleA2K = async () => {
         try {
@@ -24,6 +25,8 @@ export default function Home() {
                 alert('Please enter an abstract before submitting.');
                 return;
             }
+
+            setLoading(true); // Set loading to true when the function starts
 
             console.log('Attempting to fetch keywords...');
             const response = await extractKeywords(abstract);
@@ -34,6 +37,8 @@ export default function Home() {
         } catch (error) {
             console.error('Fetch error:', error);
             alert('Failed to extract keywords. Please try again.');
+        } finally {
+            setLoading(false); // Set loading to false after the function completes
         }
     };
 
@@ -122,7 +127,9 @@ export default function Home() {
                     {abstractDisabled ? (
                         <Button2 onClick={handleClear}>Clear Abstract</Button2>
                     ) : (
-                        <Button2 onClick={handleA2K}>Submit</Button2>
+                        <Button2 onClick={handleA2K} disabled={loading}>
+                            {loading ? 'Loading...' : 'Submit'}
+                        </Button2>
                     )}
                 </div>
 
@@ -205,11 +212,17 @@ const TextField = ({ value, onChange, placeholder, disabled }) => {
 };
 
 // Button component
-const Button2 = ({ children, onClick }) => {
+const Button2 = ({ children, onClick, disabled }) => {
     return (
         <Button
-            className="inline-flex justify-center items-center gap-2 rounded-md bg-gray-900 py-1.5 px-3 text-sm/6 font-medium text-white max-w-36 text-center shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+            className={clsx(
+                'inline-flex justify-center items-center gap-2 rounded-md py-1.5 px-3 text-sm/6 font-medium text-white max-w-36 text-center shadow-inner shadow-white/10 focus:outline-none',
+                disabled
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-gray-900 hover:bg-gray-600 focus:bg-gray-700'
+            )}
             onClick={onClick}
+            disabled={disabled}
         >
             {children}
         </Button>
