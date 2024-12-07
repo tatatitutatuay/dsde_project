@@ -19,7 +19,7 @@ nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
 
 # Load the dataset
-file_path = 'data_preparation/given_data/data/data_noTHInAbstract.csv'  # Update with your file path if needed
+file_path = 'data_preparation/trainData.csv'
 data = pd.read_csv(file_path)
 
 # Ensure keywords are converted from string to list
@@ -74,11 +74,11 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
 # Save the model and vectorizer
-def save_model(model, vectorizer, model_filename='keyword_extraction_model.pkl', vectorizer_filename='tfidf_vectorizer.pkl'):
-    if not os.path.exists('model'):
-        os.makedirs('model')
-    joblib.dump(model, os.path.join('model2', model_filename))
-    joblib.dump(vectorizer, os.path.join('model', vectorizer_filename))
-    print(f"Model and vectorizer saved in 'model/{model_filename}' and 'model/{vectorizer_filename}'")
+def save_model(model, vectorizer, model_filename='keyword_extraction_model_last.pkl', vectorizer_filename='tfidf_vectorizer_last.pkl'):
+    if not os.path.exists('model-backend/model'):
+        os.makedirs('model-backend/model')
+    joblib.dump(model, os.path.join('model-backend/model', model_filename))
+    joblib.dump(vectorizer, os.path.join('model-backend/model', vectorizer_filename))
+    print(f"Model and vectorizer saved in 'model-backend/model/{model_filename}' and 'model-backend/model/{vectorizer_filename}'")
 
 save_model(model, vectorizer)
