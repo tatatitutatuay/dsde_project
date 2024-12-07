@@ -41,7 +41,7 @@ export default function NetworkComponent({ path }) {
                     enabled: true,
                 },
                 interaction: {
-                    dragNodes: false,
+                    dragNodes: true,
                     dragView: true,
                     tooltipDelay: 200,
                 },
