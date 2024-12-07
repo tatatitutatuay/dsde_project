@@ -1,5 +1,8 @@
 import React from 'react';
-import Plot from 'react-plotly.js';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the Plot component with ssr: false to prevent SSR
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 const BarChart = ({ data }) => {
     if (!data) return null;
