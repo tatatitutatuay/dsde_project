@@ -1,23 +1,27 @@
 import pandas as pd
-import ast
+from collections import Counter
 
-df = pd.read_csv("data_preparation/given_data/keyword/data_noTHInAbstract.csv")
+# Load the CSV file
+keywords_df = pd.read_csv('data_preparation\given_data\data\keywords.csv', on_bad_lines='skip')
 
-# Convert string representations of lists into actual lists
-keywords = df['keywords'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) and x != '[]' else [])
+# Flatten the DataFrame into a list of keywords, ignoring empty cells
+keywords_list = keywords_df.values.ravel()  # Flatten the DataFrame into a 1D array
+keywords_list = [kw for kw in keywords_list if kw]  # Remove empty values
 
-# Flatten the list
-flattened_keywords = [keyword for sublist in keywords for keyword in sublist]
+# Count the frequency of each keyword
+keyword_counts = Counter(keywords_list)
 
-# Count the occurrences of each keyword
-keyword_counts = pd.Series(flattened_keywords).value_counts()
+# Convert the Counter into a DataFrame for better readability
+keyword_counts_df = pd.DataFrame(keyword_counts.items(), columns=['Keyword', 'Count'])
 
-# Create an array with keyword and count pairs
-keyword_array = [[keyword, count] for keyword, count in keyword_counts.items()]
+# Sort by count in descending order
+keyword_counts_df = keyword_counts_df.sort_values(by='Count', ascending=False)
 
-# Export the array to a CSV file
-output_file = "keyword_counts.csv"
-keyword_df = pd.DataFrame(keyword_array, columns=['Keyword', 'Count'])
-keyword_df.to_csv(output_file, index=False)
+# Drop the row of Nan values
+keyword_counts_df = keyword_counts_df.dropna()
 
-print(f"Data has been exported to {output_file}")
+# Save the results to a CSV
+keyword_counts_df.to_csv('data_preparation\given_data\data\keyword_counts_2.csv', index=False)
+
+# Display the result
+print(keyword_counts_df)
