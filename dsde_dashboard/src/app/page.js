@@ -177,7 +177,7 @@ export default function Home() {
                 />
 
                 {/* Network Visualization*/}
-                <NetworkComponent path="data\network_data.json"/>
+                <NetworkComponent path="/data/network_data_combined.json" />
             </div>
         </main>
     );
