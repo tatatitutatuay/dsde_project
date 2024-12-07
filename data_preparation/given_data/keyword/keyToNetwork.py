@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # Load the CSV file
-csv_file = "data_preparation/given_data/data/keywords.csv"  # Replace with your CSV file path
+csv_file = "data_preparation/given_data/keyword/keywords.csv"  # Replace with your CSV file path
 df = pd.read_csv(csv_file, header=None, on_bad_lines='skip')  # Read without headers
 
 # Lists to store all nodes and edges
@@ -26,7 +26,7 @@ for row_index in range(1, 21):
     all_edges.extend(row_edges)  # Append edges of this row to all_edges
 
 # Save the combined nodes and edges to a JSON file
-output_file = "data_preparation/given_data/data/network_data_combined.json"
+output_file = "data_preparation/given_data/keyword/network_data_combined.json"
 with open(output_file, "w") as f:
     json.dump({"nodes": all_nodes, "edges": all_edges}, f, indent=4)
 
