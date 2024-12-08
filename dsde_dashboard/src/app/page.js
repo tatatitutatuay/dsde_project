@@ -23,8 +23,6 @@ import NetworkComponent from '@/components/Network';
 
 import { extractKeywords } from '@/lib/extractKeywords';
 
-import dynamic from 'next/dynamic';
-
 export default function Home() {
     const [abstract, setAbstract] = useState('');
     const [abstractDisabled, setAbstractDisabled] = useState(false);
@@ -94,7 +92,7 @@ export default function Home() {
 
     return (
         <main className="container mx-auto my-24 flex justify-center items-center">
-            <div className="w-full flex flex-col gap-12 items-center justify-center">
+            <div className="w-full flex flex-col gap-24 items-center justify-center">
                 {/* Title */}
                 <div className="text-center flex flex-col gap-4">
                     <TypewriterEffect
@@ -157,42 +155,25 @@ export default function Home() {
                 }
 
                 {keywords.length > 0 && (
-                    <h3 className="text-2xl font-semibold text-black">
-                        Top Predicted Keywords
-                    </h3>
-                )}
-                {
                     // Bar Chart
-                    keywords.length > 0 && (
+                    <div className="flex flex-col gap-4 items-center">
+                        <h3 className="text-2xl font-semibold text-black">
+                            Top Predicted Keywords
+                        </h3>
                         <BarChart data={keywords.map((keyword) => keyword)} />
-                    )
-                }
+                    </div>
+                )}
 
                 {/* Buttons to select a keyword */}
                 {keywords.length > 0 && (
-                    <h3 className="text-2xl font-semibold text-black">
-                        Global Keyword Frequency Map
-                    </h3>
-                )}
-                {keywords.length > 0 && (
-                    <TabGroup>
-                        <TabList className="flex space-x-4 justify-center">
-                            <Tab
-                                key="overall"
-                                className={({ selected }) =>
-                                    clsx(
-                                        'py-2 px-4 rounded-lg text-sm font-medium focus:outline-none',
-                                        selected
-                                            ? 'bg-gray-900 text-white'
-                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                                    )
-                                }
-                            >
-                                Overall
-                            </Tab>
-                            {keywords.map(([keyword, _], index) => (
+                    <div className="flex flex-col gap-4 items-center">
+                        <h3 className="text-2xl font-semibold text-black">
+                            Global Keyword Frequency Map
+                        </h3>
+                        <TabGroup>
+                            <TabList className="flex space-x-4 justify-center">
                                 <Tab
-                                    key={index}
+                                    key="overall"
                                     className={({ selected }) =>
                                         clsx(
                                             'py-2 px-4 rounded-lg text-sm font-medium focus:outline-none',
@@ -202,33 +183,59 @@ export default function Home() {
                                         )
                                     }
                                 >
-                                    {keyword}
+                                    Overall
                                 </Tab>
-                            ))}
-                        </TabList>
-                        <TabPanels className="mt-4">
-                            <TabPanel>
-                                <ChoroplethMapOver keywords={keywords} />
-                            </TabPanel>
-                            {keywords.map(([keyword, _], index) => (
-                                <TabPanel key={index}>
-                                    <ChoroplethMap
-                                        keyword={keyword}
-                                        color_num={index}
-                                    />
+                                {keywords.map(([keyword, _], index) => (
+                                    <Tab
+                                        key={index}
+                                        className={({ selected }) =>
+                                            clsx(
+                                                'py-2 px-4 rounded-lg text-sm font-medium focus:outline-none',
+                                                selected
+                                                    ? 'bg-gray-900 text-white'
+                                                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                            )
+                                        }
+                                    >
+                                        {keyword}
+                                    </Tab>
+                                ))}
+                            </TabList>
+                            <TabPanels className="mt-4">
+                                <TabPanel>
+                                    <ChoroplethMapOver keywords={keywords} />
                                 </TabPanel>
-                            ))}
-                        </TabPanels>
-                    </TabGroup>
+                                {keywords.map(([keyword, _], index) => (
+                                    <TabPanel key={index}>
+                                        <ChoroplethMap
+                                            keyword={keyword}
+                                            color_num={index}
+                                        />
+                                    </TabPanel>
+                                ))}
+                            </TabPanels>
+                        </TabGroup>
+                    </div>
                 )}
 
                 {/* Word Cloud */}
-                <WordCloud
-                    csvFilePath="/data/keyword_counts.csv"
-                    minCount={30}
-                />
+                <div className="flex flex-col gap-0 justify-center items-center">
+                    <h3 className="text-2xl font-semibold text-black text-center">
+                        (Key)word cloud
+                    </h3>
+                    <WordCloud
+                        csvFilePath="/data/keyword_counts.csv"
+                        minCount={30}
+                    />
+                </div>
+
                 {/* Network Visualization*/}
-                <NetworkComponent path="data\network_data.json" />
+                <div className="flex flex-col gap-4 justify-center items-center">
+                    <h3 className="text-2xl font-semibold text-black">
+                        Keyword Network
+                    </h3>
+                    <NetworkComponent path="data\network_data.json" />
+                </div>
             </div>
         </main>
     );
