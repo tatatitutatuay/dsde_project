@@ -223,12 +223,22 @@ export default function Home() {
                 )}
 
                 {/* Word Cloud */}
-                <WordCloud
-                    csvFilePath="/data/keyword_counts.csv"
-                    minCount={30}
-                />
+                <div>
+                    <h3 className="text-2xl font-semibold text-black text-center">
+                        Word Frequency Cloud Visualization
+                    </h3>
+                    <WordCloud
+                        csvFilePath="/data/keyword_counts.csv"
+                        minCount={30}
+                    />
+                </div>
                 {/* Network Visualization*/}
-                <NetworkComponent path="data\network_data.json" />
+                <div>
+                    <h3 className="text-2xl font-semibold text-black text-center">
+                        Network Visualization of Keyword Relationships
+                    </h3>
+                    <NetworkComponent path="data\network_data.json" />
+                </div>
             </div>
         </main>
     );
