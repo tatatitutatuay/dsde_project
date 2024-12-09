@@ -10,6 +10,10 @@ df2 = df2['keywords']
 # Clean the keywords by removing unwanted characters
 def clean_keyword(entry):
     entry = entry.replace('[', '').replace(']', '').replace("'", "").replace(' —', '').replace(':', '')
+    
+    # remove case sensitivity
+    entry = entry.lower()
+    
     # Strip leading/trailing spaces
     return entry.strip()
 

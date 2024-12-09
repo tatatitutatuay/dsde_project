@@ -62,5 +62,5 @@ final_df = filtered_output_df[filtered_output_df['node_id'].isin(connections.key
 final_df['connection'] = final_df['node_id'].map(connections)
 
 # Save the result with proper quoting
-final_df.to_csv('data_preparation\\given_data\\keyword\\network_test.csv', index=False, quoting=1)
+final_df.to_csv('data_preparation\\given_data\\keyword\\network.csv', index=False, quoting=1)
 print("Successfully saved the consolidated output CSV file.")
