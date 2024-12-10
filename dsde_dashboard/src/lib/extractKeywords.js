@@ -3,7 +3,7 @@
 export async function extractKeywords(abstract) {
     try {
         const response = await fetch(
-            'https://model-backend-f7d12ebf4930.herokuapp.com/api/extract',
+            'https://a2k-backend.onrender.com/api/extract',
             {
                 method: 'POST',
                 headers: {
